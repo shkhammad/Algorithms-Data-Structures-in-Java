@@ -1,0 +1,189 @@
+You can sort about 10^7 integers using the Arrays.sort() method in one 
+second --> (nlogn)
+
+1.Product of array except self:(leetcode)
+We'll create two arrays left array and right array and then multiply it together.
+l-->storing product of elements towards left
+r-->storing product of elements towards right
+Ex:
+[1,2,3,4]-->Original array
+[1(default),1,2,6]-->Left product
+[24,12,4,1(default)]-->Right product
+[24,12,8,6]-->Final array(multiply left and right)
+CODE:-
+
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+   int l[]= new int[nums.length];
+   int r[]= new int[nums.length];
+   int o[]= new int[nums.length];
+   int i;     
+   l[0]=1;
+   r[r.length-1]=1;      
+   for(i=1;i<l.length;i++)
+   l[i]=l[i-1]*nums[i-1];
+   for(i=r.length-2;i>=0;i--)
+   r[i]=r[i+1]*nums[i+1];
+   for(i=0;i<o.length;i++)
+   o[i]=l[i]*r[i];
+   return o;
+ }
+}
+
+2.Maximum subarray:(leetcode)
+Kadane's algorithm--> O(n) linear time
+CODE:-
+import java.util.*; 
+public class Test{
+ public static void main(String []args){
+ int a[]={1,1,2};
+ int cs=a[0],fs=a[0];
+ for(int i=1;i<a.length;i++){
+ cs=Math.max(a[i],a[i]+cs);
+ fs=Math.max(cs,fs);
+ }	 
+ System.out.println(fs);
+ }
+}
+
+3.Sort in descending order:
+First, sort the array then reverse it using the for loop. 
+CODE:-
+int a[]={1,2,3,4,5},t,i,j=a.length-1;
+Arrays.sort(a);
+for(i=0;i<(a.length)/2;i++){
+   t = a[i];
+   a[i] = a[j];
+   a[j] = t; 
+   j--;
+ }
+System.out.println(Arrays.toString(a));  
+
+4.Find pivot index:(leetcode)
+Pivot index is the index where the sum of all the numbers to the left of it
+is equal to the sum of all the numbers to the right of it.
+
+So, we just have to equate leftsum to rightsum, we'll track leftsum, and for
+rightsum we'll use total of the elements - leftsum - particular element for
+a particular element
+
+CODE:-
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int total = 0, lsum = 0, i;
+        for(int val: nums)
+.
+
+            total+=val;
+        for(i=0;i<nums.length;i++){
+            if(lsum == total - nums[i] - lsum)
+                return i;
+            lsum+=nums[i];
+        }
+        return -1;
+    }
+} 
+
+5.Minimum absolute difference between two pairs (numbers) of an array:(Hackerrank)
+O(nlogn) approach
+We first sort the array. In general the minimum difference, after sorting would be the difference between the first and
+the second numbers i.e. arr[1] -arr[0], but here there is absolute difference so we iterate over all the elements of the
+array and check the minimum absolute difference after sorting.
+
+Example:
+1.arr[] = {5,4,3,2,1}
+  After sorting,
+  arr[] = {1,2,3,4,5}
+  So, the absolute minimum difference will be arr[1]-arr[0], i.e. 1
+
+2.a[] = {-20,-3916237,-357920,-3620601,7374819,-7330761,30,6246457,-6461594,266854,-520 ,-470}
+  After sorting,
+  a[] = {-7330761, -6461594, -3916237, -3620601, -357920, -520, -470, -20, 30, 266854, 6246457, 7374819}
+  So, the absolute minimum difference will be -470-(-520) = -470+520 = 50.
+  Also, 30 -(-20) = 30+20 = 50.
+
+CODE:-
+int arr[] = {5,4,3,2,1};
+int i,j,k=0,min = Integer.MAX_VALUE;
+Arrays.sort(arr);
+for(i=0;i<arr.length-1;i++){
+	if(Math.abs(arr[i+1]-arr[i]) < min)
+        min = Math.abs(arr[i+1]-arr[i]);
+}
+
+6.Subarray sum equals k/divisble by k:(leetcode)
+Bruteforce approach --> for finding the sum of all the subarrays in an array
+CODE:-
+int i,j,sum=0,ct=0,n=a.length; 
+for(i=0;i<n;i++){
+sum = a[i];
+for(j=i;j<n;j++)
+{
+	if(i!=j)
+	sum+=a[j];
+	if(sum%K == 0)
+	ct++;
+}
+sum=0;
+}
+return ct;
+
+7.Majority element:(leetcode)
+Using boyer's moore voting algorithm where each element balances the other one out
+and the element that appears more than n/2 times prevails since it only remains in the end
+CODE:-
+class Solution {
+    public int majorityElement(int[] nums) {
+        //Boyer's Moore Voting algorithm
+        int ct=0,res=nums[0];
+        for(int val: nums){
+            if(ct == 0)
+                res = val;
+            if(res == val)
+                ct++;
+            else 
+                ct--;
+        }
+        return res;
+    }
+}
+
+8.Duplicate number:(leetcode)
+For implementing in linear time and constant space, we use floyd's hare and
+tortoise algorithm(cycle detection algorithm).
+First, we create two pointers hare and tortoise(start from head), we in the loop increments
+tortoise by one and hare by two. Here values of the arrays are nodes.
+Ex: [1,2,3,1] --> tor->1,har->1-->tor->2(by x),har->3(by 2x)
+If there is a duplicate then there will be a cycle.
+After the loop break we will get the intersection point.
+We will set the tortoise pointer to the head and continue the hare pointer
+from the intersection point.
+Now, both the pointers shall be increment by one and eventually they will
+meet at the starting point of the cycle, which is our result i.e the duplicate
+number(since the cycle will start from the duplicate number and end to it). 
+Then, we can return any of the two pointers as they would be equal(both present
+at the starting point of the cycle).
+CODE:-
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int tor=nums[0],har=nums[0];
+        while(true)
+        {
+            tor = nums[tor];
+            har = nums[nums[har]];
+            // for finding the intersection point
+            if(tor == har)
+                break;
+        }
+        //for finding the entrance of the cycle
+        //tortoise lost so set to the starting node(nums[0])
+	tor = nums[0];
+        while(tor!=har){
+            tor = nums[tor];
+            har = nums[har];
+        }
+        return har; //As har == tor anything returned would be the same
+    }
+}   
+
+9.	

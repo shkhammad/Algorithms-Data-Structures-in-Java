@@ -1,0 +1,38 @@
+1ST METHOD(USING EDXIO PACKAGE(ONLY SUPPORTED BY EDX COURSE)(MEDIUM)): -
+
+import mooc.EdxIO;
+public class Test{
+ public static void main(String [] args){
+	try(EdxIO io = EdxIO.create()){
+		io.println(io.nextInt() + io.nextInt());
+	}
+  }
+}
+
+2ND METHOD(USING SCANNER CLASS(SLOW)): -
+
+import java.util.*;
+import java.io.*;
+public class Test{
+ public static void main(String [] args) throws IOException{
+	try(Scanner in = new Scanner(new File("input.txt"));
+	PrintWriter out = new PrintWriter("output.txt")){
+		out.println(in.nextInt() + in.nextInt());
+	}
+  }
+}
+
+3RD METHOD(USING INPUTREADER PACKAGE(FAST)): -
+
+import java.io.*;
+import com.williamfiset.fastjavaio.InputReader;
+public class Test{
+ public static void main(String [] args) throws IOException{
+	 
+	 InputReader in = new InputReader(new FileInputStream("D:/Java Programs/input.txt"));
+	 PrintWriter out = new PrintWriter("output.txt");
+	 int a = in.nextInt();
+	 out.println(a);
+	 out.close();
+  }
+}

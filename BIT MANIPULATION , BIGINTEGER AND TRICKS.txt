@@ -1,0 +1,284 @@
+# BIT MANIPULATION
+n-->number
+
+1.EVEN/ODD:
+In odd numbers the last bit is always 1,so when we & 1 to it,it becomes 1 so false(odd). 
+n&1==0    //4-->100-->0100 & 0001-->0000-->even
+return true(even)  //5-->0101 & 0001-->0001-->odd
+
+CODE:-
+import java.util.*;
+public class Test{
+  static int isEven(int n)
+  {
+    return n&1;
+  } 
+  public static void main(String []args){
+  int n=88;
+  if(isEven(n)==0)
+  System.out.println("TRUE");
+  else
+  System.out.println("FALSE");
+  }
+}
+
+2.POWER OF 2:
+n&n-1==0
+Example:
+n=8
+8 & 7-->1000 & 0111-->0000
+True
+n=6
+6 & 5-->0110 & 0101-->0100
+False
+CODE:-
+import java.util.*;
+public class Test{
+  static int func(int n)
+  {
+    return (n&n-1);
+  }	
+  static boolean isPowerOfTwo(int n)
+  {
+    if(n==0) return false;
+    if(func(n)==0) return true;
+    return false;
+  } 
+  public static void main(String []args){
+  int n=12;
+  if(isPowerOfTwo(n))
+  System.out.println("TRUE");
+  else
+  System.out.println("FALSE");
+  }
+}
+3.Multiplying/Dividing by 2:
+>>---divide (right shift)
+<<--multiply (left shift)
+CODE:-
+import java.util.*;
+public class Test{
+ public static void main(String []args){
+int n =189;
+int a = 10;
+n<<=1;
+a>>=1;
+System.out.println(n); 
+System.out.println(a); 
+ }	
+}
+4.Swapping two variables without temp variable:
+a^=b
+b^=a
+a^=b
+CODE:-
+import java.util.*;
+public class Test{
+ public static void main(String []args){
+int a =5;
+int b = 10;
+System.out.println(a+" "+b); 
+//0101
+// ^   
+//1010
+//1111
+a^=b;
+
+b^=a;
+
+a^=b;
+
+System.out.println(a+" "+b); 
+ }	
+}
+5.No of digits in a number: -
+CODE:-
+import java.util.*;
+public class Test{
+ public static void main(String []args){
+int a =78650;
+int n=(int)Math.floor(Math.log10(a))+1; //No of digits stored in n
+System.out.println(n); 
+ }	
+}
+
+6.Left shift and right shift:(Bit Manipulation)
+CODE:-
+  //left-shift
+  // x<<y -- > x * 2^y
+  // 1(x) * 2^4(y)  = 16
+  
+  System.out.println(1<<4);
+  
+  //right-shift
+  // x>>y -- > x / 2^y
+  // 5(x) / 2^1(y)  = 2
+  
+  System.out.println(5<<1);
+
+7.Hamming distance:
+CODE:-
+class Solution {
+    public int hammingDistance(int x, int y) {
+        int xor = x^y,res = 0;
+        while(xor!=0){
+        //counts the number of set bits(1) from right to left     
+	xor = xor & (xor-1);
+        //L<--------<---R
+	    res++;
+        }
+        return res;
+    }
+}
+
+8.Binary number with alternating bits:
+CODE:-
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+	//returns binary value of the specified integer in string format
+        String s = Integer.toBinaryString(n);
+        for(int i=0;i<s.length()-1;i++){
+            if(s.charAt(i) == s.charAt(i+1))
+                return false;
+        }
+        return true;
+    }
+}
+
+9.Bitwise and of numbers range:
+CODE:-
+class Solution {
+    public int rangeBitwiseAnd(int m, int n) {
+      //log(n) approach since the values are made into half
+      int res=0;
+      while(m!=n){
+          //divide by 2
+	  m>>=1;
+          //divide by 2
+	  n>>=1;
+          res++;
+      }
+	here m == n and m = m/n*2^res
+        return m<<res;
+    }
+}
+
+10.Single number - II:
+CODE:-
+class Solution {
+    public int[] singleNumber(int[] nums) {
+        int dif=0;
+        //xoring all elements
+	for(int val: nums)
+            dif^=val;
+
+	//formula for finding the rightmost set(1) bit
+	//it would be different for both the numbers since both the numbers 
+	//are different at particular bit(0^1=1), for one number the bit  
+	//would be off(0) and for other it would be on(1)
+        
+	dif&=~(dif-1);
+	
+	//divided into two groups
+	//and performing xor
+	//on all of the elements of both the groups seperately
+        int res[] = {0,0};
+        for(int val: nums){
+            //for the number in which the bit is off(0) 
+	    //is categorised in one group(zero group)
+	    if((dif&val) == 0)
+                res[0]^=val;
+            //for the number in which the bit is on(1) 
+	    //is categorised into another group(one group)
+	    else
+                res[1]^=val;
+        }
+        return res;
+    }
+}
+
+11.Count triplets that can form two arrays of equal xor:
+Ex:[2,3,1,6,7]
+Here, 2^3^1 = 0
+i.e (0,1,2) so length would be 2(2-0=2)
+2^3 = 1 is also true(l.h.s is one array and r.h.s is the other array --> two arrays)
+(0,2,2) is the tripet formed according to the problem description
+2 = 3^1 is also true(here l.h.s = r.h.s as the xor of both the arrays are equal, in total zero)
+(0,1,2) is the triplet
+Also, 1^6^7 = 0
+i.e (2,3,4) so length would be 2(4-2=2)
+1^6 = 7 is also true(l.h.s is one array and r.h.s is the other array --> two arrays)
+(2,4,4) is the tripet formed according to the problem description
+1 = 6^7 is also true(here l.h.s = r.h.s as the xor of both the arrays are equal, in total zero)
+(2,3,4) is the triplet
+
+CODE:-
+class Solution {
+    public int countTriplets(int[] arr) {
+       //as xor of two arrays are equal (x = x)
+       //xor of the combined arrays would be zero(x^x=0)
+       //finding all the subarrays(segments) having xor as 0
+       //and summing their lengths up
+       int i,j,res=0,xor;
+       for(i=0;i<arr.length;i++){
+           xor = arr[i];
+           for(j=i+1;j<arr.length;j++){
+               xor^=arr[j];
+               if(xor == 0)
+                   res = res + (j-i);
+           }
+       }
+       return res;
+    } 
+}
+
+#BIGINTEGER
+1.GCD of two numbers(using BigInteger class): -
+CODE:-
+import java.math.*; //package for biginteger class
+public class Test{
+ public static void main(String []args){
+  
+  BigInteger a = new BigInteger("98");
+  BigInteger b = BigInteger.valueOf(56);
+  BigInteger c = a.gcd(b);//store the result in c
+  int res = c.intValue();
+  System.out.println(res);	
+ }	
+}
+
+2.Checking for prime(using biginteger class):
+CODE:-
+import java.math.*;
+public class Test{
+ public static void main(String []args){
+  //true-->prime else false-->composite
+   
+  BigInteger a = new BigInteger("5");
+  System.out.println(a.isProbablePrime(1));//paramter 1 for certainity	
+ }	
+}
+
+3.Sorting very large numbers(using biginteger class --> Hackerrank):
+Here, unsorted numbers are stored in 'unsorted' array of String type, we add them to the BigInteger array 'a', and then
+sort them.
+CODE:-
+static void bigSorting(String[] unsorted) {
+
+        BigInteger a[] = new BigInteger[unsorted.length];
+        String sorted[] = new String[unsorted.length];
+        int i=0;
+        for(String s: unsorted){
+            a[i] = new BigInteger(s);
+            i++;
+        }
+        Arrays.sort(a);
+        for(BigInteger val: a){
+            System.out.println(val);
+        }
+ }
+
+ 
+4.
+
+

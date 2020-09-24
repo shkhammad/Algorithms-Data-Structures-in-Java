@@ -1,0 +1,212 @@
+PREFIX SUM:(CUMULATIVE SUM)
+pref[0] = a[0]
+pref[i] = pref[i-1] + a[i]
+If L to R is a range in an array(position) then,
+sumOfSubarray[L...R] = pref[R] - pref[L-1] --> if L>0
+sumOfSubarray[L...R] = pref[R] --> if L=0
+
+Example:
+Cumulative Sum Query:(SPOJ)
+Ad-hoc(straightforward) problem solved just by using the above lemma
+CODE:-
+import java.util.*;
+import java.lang.*;
+
+class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner in = new Scanner(System.in);
+		int n = in.nextInt(),i,q,p1,p2;
+		in.nextLine();
+		int a[] = new int[n];
+		int pre[] = new int[n];
+		for(i=0;i<a.length;i++)
+		a[i] = in.nextInt();
+		pre[0] = a[0];
+		for(i=1;i<a.length;i++)
+		pre[i] = pre[i-1] + a[i];
+		in.nextLine();
+		q = in.nextInt();
+		while(q-->0){
+			p1 = in.nextInt();
+			p2 = in.nextInt();
+			if(p1 == 0)
+			System.out.println(pre[p2]);
+			else
+			System.out.println(pre[p2] - pre[p1-1]);
+		}
+		
+	}
+}
+
+1.Pivot Index:
+CODE:-
+class Solution {
+    public int pivotIndex(int[] nums) {
+     int sum=0,ls=0;
+     for(int val: nums)
+         sum+=val;
+     for(int i=0;i<nums.length;i++){
+         if(ls == sum-ls-nums[i])
+             return i;
+         ls+=nums[i];
+     }
+      return -1;  
+   }
+}
+
+2.Subarray with zero sum:
+CODE:-
+  int a[] = {23,12,20,46,31,-45,-25};
+  Set<Integer> st = new HashSet();
+  int i,sum = 0,n = a.length;
+  for(i=0;i<n;i++){
+	  sum+=a[i];
+	  st.add(sum);
+	  if(st.size()!=(i+1) || st.contains(0)){
+		  System.out.println("true");    
+		  break;
+	  }		
+ 
+  }
+  System.out.println("false");
+
+3.Maximum subarray:(using prefix sums)
+Here the min_val variable is initialized as 0 intuitively as pref[-1] = 0
+CODE:-
+class Solution {
+    public int maxSubArray(int[] a) {
+        //3.Prefix sum
+        int i,r=0,n=a.length,res=Integer.MIN_VALUE,min_val=0;
+        int pref[] = new int[n];
+        pref[0] = a[0];
+        for(i=1;i<n;i++)
+        pref[i] = pref[i-1] + a[i];
+        for(r=0;r<a.length;r++){
+	   //we move towards the right side	
+	   //sumofsubarray[L..R] = pref[R] - pref[L-1]
+           //we want pref[L-1] to be minimum value(on the leftside) in order to find the max sum			
+            res = Math.max(res,pref[r]-min_val);
+            min_val = Math.min(min_val,pref[r]);
+        }
+        return res;
+    }
+}
+
+4.Subarray sum equals k:
+CODE:-
+class Solution {
+    public int subarraySum(int[] a, int k) {
+        HashMap<Integer,Integer> mp = new HashMap();
+        int sum=0,ct=0;
+        mp.put(0,1);
+        for(int val: nums){
+            sum+=val;
+            if(mp.containsKey(sum-k))
+                ct+=mp.get(sum-k);
+            mp.put(sum,mp.getOrDefault(sum,0)+1);    
+        }
+        return ct;
+    }
+}
+
+5.Subarray sum divisble by k:
+CODE:-
+class Solution {
+    public int subarraysDivByK(int[] A, int K) {
+        //sum[L...R] = pre[R] - pre[L-1];
+        Map<Integer,Integer> mp = new HashMap();
+        int ct=0,preSum=0;
+        mp.put(0,1);
+        for(int val: A){
+            //we calculate the remainder by cumulative sum		
+            preSum= (preSum+val)%K;
+	    //for negative modulo in java(we add negative modulo with the denominator)	
+            if(preSum<0) preSum+=K;
+            //we count the frequency of the remainder on the l.h.s as we move towards r.h.s(i.e subarrays in the middle has sum which has remainder 0 --> divisible by k)
+	    ct+=mp.getOrDefault(preSum,0);
+            mp.put(preSum,mp.getOrDefault(preSum,0)+1);
+        }
+        return ct;
+    }
+}
+
+6.Contiguous subarray:(leetcode-->longest subarray with equal number of 0 and 1 in a binary array)
+CODE:-
+class Solution {
+    public int findMaxLength(int[] nums) {
+        int i,s=0,n=nums.length,res=0;
+        for(i=0;i<n;i++){
+            if(nums[i] == 0)
+                nums[i]=-1;
+        }
+        HashMap<Integer,Integer> mp = new HashMap();
+        //sum-->0 index-->-1
+	mp.put(0,-1);
+        for(i=0;i<n;i++){
+            s+=nums[i];
+            //trace back to the l.h.s(i.e subarray sum in between is zero, we started and came back again to the same value)
+	    if(mp.containsKey(s))
+                res = Math.max(res,i-mp.get(s));
+            if(!mp.containsKey(s)) 
+                mp.put(s,i);
+        }
+        return res;
+    }
+}
+
+7.Longest subarray with zero sum:
+CODE:-
+class GfG
+{
+    int maxLen(int nums[], int n)
+    {
+            int i,s=0,res=0;
+            Map<Integer,Integer> mp = new HashMap();
+            mp.put(0,-1);
+            for(i=0;i<n;i++)
+          {
+            s+=nums[i];
+            if(mp.containsKey(s))
+                res = Math.max(res,i-mp.get(s));
+            if(!mp.containsKey(s)) 
+            mp.put(s,i);
+                
+           }
+	        return (res);
+	}
+}
+
+8.Longest subarray with k sum:
+CODE:-
+	     HashMap<Integer,Integer> mp = new HashMap();
+	     mp.put(0,-1);
+             for(i=0;i<a.length;i++){
+                 s+=a[i];
+                 if(mp.containsKey(s-k))
+                 res = Math.max(res,i-mp.get(s-k));
+                 if(!mp.containsKey(s)) 
+                 mp.put(s,i);
+             }
+	         System.out.println(res);
+
+9.Longest span with the same sum in two binary arrays:
+CODE:-
+	    //calculate the difference between the two arrays	
+	    for(i=0;i<n;i++)
+	    nums[i] = b[i] - a[i];
+	    //from here onwards it is same as longest subarrays with zero sum	
+	    HashMap<Integer,Integer> mp = new HashMap();
+            mp.put(0,-1);
+            for(i=0;i<n;i++){
+            s+=nums[i];
+            if(mp.containsKey(s))
+                res = Math.max(res,i-mp.get(s));
+            if(!mp.containsKey(s))
+            mp.put(s,i);
+            }
+	    System.out.println(res);
+
+10.
+    

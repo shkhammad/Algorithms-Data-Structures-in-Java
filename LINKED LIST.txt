@@ -1,0 +1,47 @@
+1.Middle of the linked list:
+CODE:
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode getMid(int l,ListNode head){
+     int temp=-1;
+     while(head!=null)
+     {
+      temp++;
+      if(temp==l) break;
+      head=head.next;   
+     }
+      return head;  
+    }
+    public ListNode middleNode(ListNode head) {
+     int count=-1,pos;   
+     ListNode head2= head;        
+        while(head!=null){
+        count++;
+        head=head.next; 
+     }
+     pos=count%2==0?count/2:(count+1)/2;
+     return getMid(pos,head2);   
+    }
+}
+
+2.Reverse the linked list(Iterative approach):
+CODE:
+   public ListNode reverseList(ListNode head) {
+    ListNode prev = null;
+    while(head!=null)
+    {
+        ListNode temp = head.next;
+        head.next=prev;
+        prev=head;
+        head=temp;
+    }
+     return prev;   
+}
+3.  

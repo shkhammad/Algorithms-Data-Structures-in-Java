@@ -1,0 +1,20 @@
+1.Integer to int and OptionalInt to int: -
+CODE:-
+import java.util.*;
+public class Test {
+ public static void main(String [] args){
+ 
+ int a[]={1,2,3};
+ 
+ //OptionalInt to int
+ int max = Arrays.stream(a).max().getAsInt();
+ int min = Arrays.stream(a).min().getAsInt();
+ System.out.println(max+" "+min);
+ 
+ //Integer to int
+ Integer i = 4;
+ int val = i.intValue();
+ System.out.println(val);
+ 
+ }
+}

@@ -1,0 +1,51 @@
+import java.util.*;
+public class Test{
+  public static double mod(Complex a)
+  {
+	  return Math.sqrt(a.r*a.r+a.i*a.i);
+  }
+  public static Complex square(Complex a)
+  {
+	  return new Complex(a.r*a.r-a.i*a.i,2*a.r*a.i);
+  }  
+  public static Complex add(Complex a,Complex b)
+  {
+	  return new Complex(a.r+b.r,a.i+b.i);
+  }  
+  public static void main(String [] args){
+      Scanner in = new Scanner(System.in);
+	  int c=1;
+	  while(in.hasNextLine())
+	  {
+		  double x = in.nextDouble();
+		  double y = in.nextDouble();
+		  int it = in.nextInt();
+		  it++;
+		  in.nextLine();
+		  boolean val = true;
+		  Complex s = new Complex(0.0,0.0);
+		  Complex v = new Complex(x,y);
+		  while(it>0)
+		  {
+			  if(mod(s)>2)
+			  val=false;
+			  s = add(square(s),v);
+		      it--;
+		 }		
+		  if(val)
+		  System.out.println("Case "+c+": IN");
+		  else
+		  System.out.println("Case "+c+": OUT");
+		  c++;  	  
+	  }
+	  }
+}
+class Complex
+{
+	double r,i;
+	public Complex(double a , double b)
+	{
+		r=a;
+		i=b;
+	}
+}

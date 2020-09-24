@@ -1,0 +1,62 @@
+HashMap Class Java:(unordered map)
+Inbuilt functions and implementation. 
+Time Complexity--> O(1)-->constant time for get and put functions 
+About 10^6 operations(get and put) can be done in a second
+
+CODE:-
+import java.util.*;
+public class Test{
+ public static void main(String []args){
+  Set<Integer> s = new HashSet();
+  List<List<String>> ls = new ArrayList();
+  Map<Integer,List<String>> mp = new HashMap();
+  mp.put(16,new ArrayList());
+  mp.get(16).add("hammad");
+  mp.get(16).add("imran");
+  System.out.println(mp.get(16));  
+  System.out.println(mp.toString());  
+  System.out.println(mp.containsKey(16));
+  System.out.println(mp.containsValue("hammad")); 
+  System.out.println(mp.getOrDefault(12,new ArrayList()));
+  System.out.println(mp.keySet());
+  System.out.println(mp.size());  
+  System.out.println(mp.values());  
+  ls.addAll(mp.values());
+  System.out.println(ls.toString());  
+  s.addAll(mp.keySet());
+  System.out.println(s.toString());  
+ }	
+}
+
+Problems:
+1.Two Sum:(leetcode)
+CODE:-
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> mp = new HashMap();
+        for(int i=0;i<nums.length;i++){
+        if(mp.containsKey(target-nums[i]))
+        return new int[] {mp.get(target-nums[i]),i};
+        mp.put(nums[i],i);
+        }
+        return new int[] {-1,-1};
+    }
+}
+2.Subarray sum equals k:(leetcode)
+CODE:-
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int s=0,ct=0;
+        Map<Integer,Integer> mp = new HashMap();
+        mp.put(0,1);
+        for(int val : nums){
+           s+=val;
+           if(mp.containsKey(s-k))
+               ct+=mp.get(s-k);
+         mp.put(s,mp.getOrDefault(s,0)+1);
+        }
+     return ct;   
+    }
+}
+3.Intersection of two arrays:(leetcode)
+CODE:-

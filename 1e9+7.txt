@@ -1,0 +1,2 @@
+# MODULO:
+The result of a % b will be always less than b

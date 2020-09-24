@@ -1,0 +1,35 @@
+import java.util.*;
+import java.math.*;
+public class Test{
+ public static void main(String [] args){
+
+//Sieve of Eratosthenes(sieving till root) 
+
+        int n=10000000,i=0,j,k=0;
+	BigInteger sum_prime = new BigInteger("0");
+	boolean prime_array [] = new boolean [n+1];
+	while(i<=n)
+	{
+		prime_array[i]=true;
+		i++;
+	}
+	prime_array[0]=false;
+	prime_array[1]=false;
+	i=2;
+	while(i*i<=n)
+	{
+		if(prime_array[i]==true)
+		{
+			for(j=2;i*j<=n;j++)
+			prime_array[i*j]=false;
+		}
+		i++;
+	}
+	for(i=0;i<=n;i++)
+	{
+		if(prime_array[i]==true)
+		sum_prime=sum_prime.add(BigInteger.valueOf(i));
+    }
+  System.out.println(sum_prime);
+ }
+}

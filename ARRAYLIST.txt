@@ -1,0 +1,111 @@
+#ARRAYLIST:
+We can print the contents of the arraylist using lambda expressions/method references as below:
+CODE: -
+import java.util.*;
+public class Test {
+ public static void main(String [] args){
+ int a[]={1,2,3};
+ List<Integer> ls = new ArrayList();
+ for(int val: a) ls.add(val);
+ //Using lambda 
+ ls.forEach((Integer val) -> {System.out.println(val);});
+ //ls.forEach(val -> {System.out.println(val);}); is also the same
+ //Using reference
+ ls.forEach(System.out::println);
+ }
+}
+
+1.LAST STONE WEIGHT:(LEETCODE)
+
+Important builtin functions of the arraylist class and the integer class. 
+Integer-->int
+
+CODE: -
+import java.util.*; 
+public class Test{
+ public static void main(String []args){
+
+  int a[]={4,3,4,3,2},i,pos;	
+  List<Integer> l = new ArrayList();
+  for(int val:a)
+  l.add(val);
+  while(true){
+   System.out.println(l.toString());	
+	if(l.size()==1) 
+  {
+	  System.out.println(l.get(0));
+	  break;
+  }
+  else if(l.size()==0) 
+  {
+	  System.out.println("0");
+	  break;
+  }
+  int m1 = Collections.max(l).intValue(),m2=Integer.MIN_VALUE; 
+  for(i=0;i<l.size();i++)
+  {
+	if(i!=l.indexOf(new Integer(m1))){  
+		if(l.get(i).intValue()>m2)
+		m2=l.get(i).intValue();
+	}
+  }
+	if(m1==m2)
+  {
+	  l.remove(new Integer(m1));
+	  l.remove(new Integer(m2));
+  }
+  else
+  {
+	  l.remove(new Integer(m2));
+	  pos=l.indexOf(new Integer(m1));
+	  l.remove(new Integer(m1));
+	  m1-=m2;
+	  l.add(pos,new Integer(m1));
+  }
+ }
+ }
+ }
+
+2.THE CRAZY HELIX:(HACKERRANK)
+
+Use of ls.set() to change the value of the object at the particular position
+Reverse the sublist(in an given interval)
+
+CODE: -
+ public static void main(String [] args) throws IOException{
+	Reader in = new Reader("D:/Java Programs/input.txt");
+        int n,i,j,q,op,p1,p2,p3,t,val;
+        n = in.nextInt();
+        List<Integer> ls = new ArrayList();
+        for(i=0;i<n;i++)
+        ls.add(i+1);
+        q = in.nextInt();
+        in.readLine();
+        while(q-->0){
+        op = in.nextInt();
+        if(op==1){
+            p1 = in.nextInt();
+            p2 = in.nextInt();
+            p1--;p2--;
+            j=p2;
+            if(p1!=p2){
+            for(i=p1;i<=((p1+p2)/2);i++){
+            t = ls.get(i);
+            ls.set(i,ls.get(j));
+            ls.set(j,t);
+            j--;
+            }
+            }
+        } 
+        if(op==2){
+        val = in.nextInt();
+        System.out.println("element "+val+" is at position "+(ls.indexOf(val)+1));    
+        }   
+        if(op==3){
+        p3 = in.nextInt();
+        System.out.println("element at position "+p3+" is "+ls.get(--p3));
+        }
+        if(q>0)
+        in.readLine();
+        }
+ }

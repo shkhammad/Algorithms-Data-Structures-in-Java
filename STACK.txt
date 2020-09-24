@@ -1,0 +1,93 @@
+1.Implement basic stack using arraylist:
+
+CODE:
+import java.util.*;
+class MyStack{
+//can be declared public as well	
+private List<Integer> ls = new ArrayList(); 
+public void push(int e){
+ ls.add(e);
+}
+public int top(){
+ return ls.get(ls.size()-1);
+}
+public boolean pop(){
+if(ls.isEmpty()) return false;
+ls.remove(ls.size()-1);
+return true;
+}
+public boolean isEmpty(){
+ return ls.isEmpty();
+}
+}
+
+public class Test{
+ public static void main(String []args){
+  
+  MyStack s = new MyStack();   
+  s.push(1);
+  s.push(2);
+  s.push(3);
+  for(int i=0;i<4;++i)
+  {
+	  if(!s.isEmpty())
+	  {
+		  System.out.println(s.top());
+		  System.out.println(s.pop());
+	  }
+	  else 	System.out.println(s.pop());
+  }  
+ }	
+}
+
+2.Min Stack in O(1) time:(use the inbuilt stack class)
+
+CODE:
+Stack<Integer> s = new Stack();
+Stack<Integer> min = new Stack();
+public void push(int x) {
+        s.push(x); 
+        if(min.isEmpty() || x<=min.peek())
+        min.push(x);
+}
+    
+public void pop() {
+       if(s.pop().equals(min.peek())) min.pop();
+}
+    
+public int top() {
+       return s.peek();
+}
+    
+public int getMin() {
+   
+      return min.peek();
+}
+
+3.Balanced Brackets:(Hackerrank)
+
+CODE:-
+public static String helperFunction(String s){
+	Stack<Character> st = new Stack();
+	for(int i=0;i<s.length();i++){
+	if(s.charAt(i)=='(' || s.charAt(i)=='[' || s.charAt(i)=='{')
+	st.push(s.charAt(i));
+	if(s.charAt(i)==')'){
+	if(st.empty() || st.peek()!='(' )
+	return "NO";
+	st.pop();
+	}
+	if(s.charAt(i)==']'){
+	if(st.empty() || st.peek()!='[')
+	return "NO";
+	st.pop();
+	}
+	if(s.charAt(i)=='}'){
+	if(st.empty() || st.peek()!='{')
+	return "NO";
+	st.pop();
+	}
+	}
+	return st.empty()?"YES":"NO";
+}
+ 

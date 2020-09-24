@@ -1,0 +1,14 @@
+#ASSERTIONS:-
+We can use assertions(using runtime exceptions) in the code for finding out the bugs.
+Example:
+
+CODE: -
+
+int a = 1;
+if(a == 1){
+System.out.println(a);
+throw new RuntimeException();
+}
+
+Here, if the value of the invariant(variable) changes then we can throw run-time 
+exception(i.e the code will stop).

@@ -1,0 +1,17 @@
+1.Even digit sum:
+Using the Character.getNumericValue() function
+for converting char to int (char-->int)
+CODE:
+public class EvenDigitSum {
+    public static int getEvenDigitSum(int number){
+        if(number<0) return -1;
+        String s = Integer.toString(number);
+        int val,i,sum=0;
+        for(i=0;i<s.length();i++){
+            val=Character.getNumericValue(s.charAt(i));
+            if(val%2==0)
+            sum+=val;
+        }
+        return sum;
+    }
+}

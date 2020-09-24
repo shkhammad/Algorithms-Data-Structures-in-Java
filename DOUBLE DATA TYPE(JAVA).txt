@@ -1,0 +1,41 @@
+1.How to print decimal(double) values after some fixed decimal place :
+
+n --> value
+.nf --> for representing n digits after the decimal point
+.format --> for printing the output
+
+CODE: -
+
+double a = 2.3456;
+System.out.format("%.3f",a);
+//Output- -> 2.346
+
+2.How to compare two double values:(using epsilon(constant))
+
+CODE: -
+double a = (0.3*3) + 0.1;
+double b = 1;
+if(a == b)
+System.out.println("true");
+
+Here, the above code doesn't works, so we use a technique for comparing the values,
+
+CODE: -
+double a = (0.3*3) + 0.1;
+double b = 1;
+if(Math.abs(a-b)<1e-9)
+System.out.println("true");
+
+Here, 1e-9 is a very small value which is used to compare the two values,
+it is also known as epsillon a.k.a eps(constant), eps = 1e-9
+
+We can increase or decrease the values of epsilon followingly,
+1.Refer the two screenshots of the coursera course
+2.If unequal values are treated as equal the increase the power of epsillon
+10^-8 --> 10^-9 for increased precision
+3.If equal values are treated as unequal the decrease the power of epsillon 
+10^-8 --> 10^-7 for decreased precision
+
+We can also compare the two double values using epsillon i.e greater than/greater than equal to
+or less than/less than equal to, refer the two screenshots of the coursera
+course    

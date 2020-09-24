@@ -1,0 +1,105 @@
+#HEAPS:
+By default, min-heap is implemented in java.
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+For, implemeting max-heap we use the following code:
+PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> Integer.compare(b,a));
+
+Function:-  
+Integer.compare(a,b):
+returns 1 if a>b
+returns -1 if a<b
+returns 0 if a==b
+1-->High priority, so swap
+-1-->Low priority, no swap
+0-->Do nothing
+
+1.Min Heap using Priority Queue
+CODE:-
+
+import java.util.*; 
+public class Test{
+ public static void main(String []args){
+ //In,Java the default heap is Min-Heap
+ PriorityQueue<Integer> pq = new PriorityQueue();
+ pq.offer(30);//offer is same as head
+ pq.add(20);
+ pq.add(10);
+ System.out.println(pq.toString()); //[10,30,20]
+ pq.remove(10);
+ System.out.println(pq.toString());//[20,30]
+ System.out.println(pq.contains(20));
+ Object q[] = pq.toArray();//toArray() returns type Object[] 
+ System.out.println(Arrays.toString(q));
+ Integer p[] = pq.toArray(new Integer[pq.size()]);//returns type Integer[](specific) fill toArray() with an object and size of the heap 
+ System.out.println(Arrays.toString(p));
+ System.out.println(pq.peek());//20-->peek() returns the head of the queue or topmost element of the queue, in this case the minimum element
+ System.out.println(pq.poll());//20-->poll() returns the head of the queue and removes the element from the heap or topmost element of the queue, in this case the minimum element
+ System.out.println(pq.toString())	;
+ 
+ }
+}
+
+2.Max Heap using Priority Queue
+CODE:-
+
+import java.util.*; 
+public class Test{
+ public static void main(String []args){
+ //Max-Heap-->using Collections.reverseOrder() changes the ordering of the objects to reverse
+ PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
+ pq.offer(10);
+ pq.offer(20);
+ pq.offer(30);
+ Iterator it = pq.iterator();
+ while(it.hasNext())
+ System.out.println(it.next());
+ System.out.println(pq.toString());
+ System.out.println(pq.poll());
+ System.out.println(pq.toString());
+ //Rest all functions are same as that of Min-Heap
+ }
+}
+
+3.Last Stone Weight(Leetcode-->Max-Heap)
+CODE:-
+
+class Solution {
+public int lastStoneWeight(int[] a) {
+  PriorityQueue<Integer> pq =new PriorityQueue(Collections.reverseOrder());
+  for(int val:a)
+      pq.offer(val);
+  while(pq.size()>1)
+  pq.offer(pq.poll()-pq.poll());
+  return pq.peek(); //pq.poll() is same as pq.peek()
+ }
+}
+
+4.Sort characters by frequency:(Leetcode-->Modified version of max-heap)
+(HashMap+Heap)
+CODE:-
+
+import java.util.*;
+public class Test {
+ public static void main(String [] args){
+ String s = "vbmmm";
+ StringBuilder fs = new StringBuilder();
+ Map<Character,Integer> mp = new HashMap();
+ for(char c: s.toCharArray())
+ 	 mp.put(c,mp.getOrDefault(c,0)+1);
+
+ //Creates a max-heap in which the ordering of elements is according to integers in the map, instead of the characters(of the map) as usual	 
+ 
+ PriorityQueue<Character> pq = new PriorityQueue((a,b) -> Integer.compare(mp.get(b),mp.get(a))); 
+ for(char c: mp.keySet())
+ pq.offer(c);
+ System.out.println(pq.toString());
+ while(!pq.isEmpty()){
+ char current = pq.poll();
+ int ct = mp.get(current);
+ for(int i=0;i<ct;i++)
+ fs.append(current);
+ }
+ System.out.println(fs.toString());
+}
+}
+
