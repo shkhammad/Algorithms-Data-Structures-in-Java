@@ -1,0 +1,129 @@
+A sliding window problem consists in general of two pointers i and j which 
+both traverses the array. One in linear speed like j/i, and the other i/j,
+after some condition satisfies traverses linearly. Below problem indicates 
+the most basic sliding window problem. Sliding window problem helps us to
+achieve linear complexity.
+
+0.Maximum Sum Subarray of size K: (geeksforgeeks)
+CODE:-
+class Solution{
+    static int maximumSumSubarray(int K, ArrayList<Integer> ls,int N){
+        int i,j=0,s=0,res;
+        for(i=0;i<K;i++)
+        s+=ls.get(i);
+        res = s;
+        for(i=K;i<N;i++){
+            s+=ls.get(i);
+            s-=ls.get(j);
+            res = Math.max(res,s);
+            j++;
+        }
+        return res;
+    }
+}
+1.Max Consecutive Ones: (leetcode)
+CODE:-
+class Solution {
+    public int longestOnes(int[] A, int K) {
+        int j,i=0;
+        for(j=0;j<A.length;j++){
+	    //removing the number of ones	
+            if(A[j] == 0) K--;
+            if(K<0){
+                if(A[i] == 0)
+		    //adding the number of ones	
+                    K++;
+		//moving the sliding window
+                i++;
+            }
+        }
+        return j-i;
+    }
+}
+
+2.Grumpy Bookstore Owner: (leetcode)
+CODE:-
+class Solution {
+    public int maxSatisfied(int[] customers, int[] grumpy, int X) {
+        int i,n=customers.length,res=0,res2=0,sum=0;
+        for(i=0;i<n;i++){
+            if(grumpy[i] == 0) res+=customers[i];
+            else sum+=customers[i];
+            if(i>=X){
+		//move the sliding window for only customers who are 
+		// grumpy (see the book notes for further reference)
+                sum-=customers[i-X]*grumpy[i-X];
+            }
+            res2 = Math.max(res2,sum);
+        }
+        return res+res2;
+    }
+}
+
+3.Maximum number of vowels in a substring of a given length: (leetcode)
+CODE:-
+class Solution {
+    public int maxVowels(String s, int k) {
+        int i,j=0,res=0,ct=0,n=s.length();
+        for(i=0;i<n;i++){
+            
+            if(s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o' || s.charAt(i) == 'u')
+            ct++;
+            
+            if(i>=k){
+                if(s.charAt(j) == 'a' || s.charAt(j) == 'e' || s.charAt(j) == 'i' || s.charAt(j) == 'o' || s.charAt(j) == 'u')
+                ct--;
+                j++;
+            }
+            if(ct>res)
+                res = ct;
+        }
+        return res;
+    }
+}
+
+4.Longest Substring without repeating characters: (leetcode)
+It uses two pointer approach the 'i' pointer extends the sliding window
+till no duplicate character is found, while the 'j' pointer searches for 
+duplicate character from the beginning of the string if it is found then
+the search continues with the ith pointer again(extending sliding window).
+CODE:-
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int i=0,j=0,len=0,n=s.length();
+        HashSet<Character> st = new HashSet();
+        while(i<n){
+            if(!st.contains(s.charAt(i))){
+                st.add(s.charAt(i++));
+                len=Math.max(len,i-j);
+            }
+            else
+                st.remove(s.charAt(j++));
+            }
+        return len;
+    }
+}
+
+5.Minimum size subarray sum: (leetcode)
+CODE:-
+class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        if(nums.length == 0 || nums == null)
+            return 0;
+        int i=0,j,sum=0,n=nums.length,res=Integer.MAX_VALUE;
+        for(j=0;j<n;j++){
+            sum+=nums[j];
+            while(sum>=s){
+                res = Math.min(res,j-i+1);
+                sum-=nums[i];
+                i++;
+            }
+        }
+        if(res == Integer.MAX_VALUE)
+        return 0;
+        return res;
+    }
+}
+
+6.Sliding window maximum(Dequeue approach): (leetcode)
+CODE:-

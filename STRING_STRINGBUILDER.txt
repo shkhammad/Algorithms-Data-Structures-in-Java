@@ -1,0 +1,342 @@
+1.Check for a string palindrome:
+
+CODE:
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        
+        Scanner sc=new Scanner(System.in);
+        String A=sc.next();
+        StringBuilder B = new StringBuilder();
+        B.append(A);
+        StringBuilder C = new StringBuilder();
+        C.append(A);
+        C.reverse(); 
+        if(B.toString().equals(C.toString()))
+        System.out.println("Yes");
+        else
+        System.out.println("No");
+        
+    }
+}
+2.Backspace string compare:
+
+CODE:
+import java.util.*;
+public class Test{
+ public static String backspace(String s)
+ {
+    char a[]=s.toCharArray();
+    StringBuilder ans= new StringBuilder();
+    int i,j=-1;
+    for(i=0;i<a.length;i++)
+    {
+		if(a[i]!='#')
+		{
+			ans.append(a[i]);
+			j++;
+	    }
+	    else
+	    {
+			if(ans.length()>0)
+			{
+				ans.deleteCharAt(j);
+				j--;
+			}
+		}  
+	}
+    return ans.toString(); 
+ }
+ public static void main(String []args){
+   
+   String s ="a##c",t="#a#c";
+   String t1= backspace(s);
+   String t2= backspace(t);
+   System.out.println(t1+" "+t2);	 
+   if(t2.equals(t1)) System.out.println("true"); // backspace(s).equals(backspace(t))
+   else System.out.println("false");
+ }	
+}
+
+3.Check for a number palindrome:
+
+CODE:
+public class NumberPalindrome {
+    public static boolean isPalindrome(int number){
+        String s = Integer.toString(Math.abs(number));
+        StringBuilder s1 = new StringBuilder(s);
+        String s2 = s1.reverse().toString();
+        int val = Integer.parseInt(s2);
+        if(Math.abs(number)==val)
+        return true;
+        return false;
+     }
+}
+
+4.Use of delete() in StringBuilder class(hackerrank-->Simple Text Editor):
+
+CODE:
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n,op,c,d;
+        String t = "";
+        StringBuilder s =new StringBuilder("");
+        Stack<String> st = new Stack();
+        st.push(s.toString());
+        n = in.nextInt();
+        while(n-->0){
+        op = in.nextInt();
+        if(op==1){
+         t = in.next();   
+         s.append(t);
+         st.push(s.toString());
+        }
+        if(op==2){
+         d = in.nextInt();
+         s.delete(s.length()-d,s.length());
+         st.push(s.toString());
+        }
+        if(op==3){
+         c = in.nextInt();
+         System.out.println(s.charAt(--c));   
+         }
+        if(op==4){
+         st.pop();
+         s.replace(0,s.length(),st.peek());
+        }
+        }
+    }
+}
+
+5.Long pressed name: (leetcode)
+CODE:-
+class Solution {
+    public boolean isLongPressedName(String name, String typed) {
+        StringBuilder st = new StringBuilder(name);
+        char p='@';
+        int i,j=0,l,ct=0,k,n=name.length(),m=typed.length();
+        for(i=0;i<m;i++){
+            if(typed.charAt(i) == st.charAt(j)){
+                st.deleteCharAt(j);
+                j=0;
+                if(st.length() == 0)
+                break;
+            }
+            
+	    else if(p == typed.charAt(i)) 
+            continue;
+                
+            else
+            return false;
+	    
+	    //keeping the previous character stored in the p variable	
+            p = typed.charAt(i);
+        }
+        l= m-i;
+        for(k=i;k<m;k++){
+            if(name.contains(Character.toString(typed.charAt(k))))
+                ct++;
+        }
+        if(st.length() == 0 && l == ct)
+        return true;
+        return false;
+    }
+}
+
+6.Bulb switcher: (leetcode)
+CODE:-
+class Solution {
+    public int minFlips(String target) {
+        char f = '0';
+        int ct = 0;
+        for(char c: target.toCharArray()){
+            if(c!=f){
+                ct++;
+                f = c;
+            }
+        }
+        return ct;
+    }
+}
+
+7.Custom sort string: (leetcode)
+CODE:-
+class Solution {
+    public String customSortString(String S, String T) {
+        int i,j,n=S.length(),m=T.length();
+        StringBuilder res = new StringBuilder();
+        HashMap<Character,Integer> mp1 = new HashMap();
+        HashMap<Character,Integer> mp2 = new HashMap();
+        for(char c: S.toCharArray())
+            mp1.put(c,mp1.getOrDefault(c,0)+1);
+        for(char c: T.toCharArray())
+            mp2.put(c,mp2.getOrDefault(c,0)+1);
+        for(i=0;i<n;i++){
+            if(mp2.get(S.charAt(i)) != null){
+            if(mp1.get(S.charAt(i))>0 && mp2.get(S.charAt(i))>0){
+                for(j=0;j<mp2.get(S.charAt(i));j++)
+                res.append(S.charAt(i));
+               }
+            }
+        }
+        for(i=0;i<m;i++){
+            if(mp1.get(T.charAt(i)) == null && mp2.get(T.charAt(i))>0){
+                for(j=0;j<mp2.get(T.charAt(i));j++)
+                res.append(T.charAt(i));
+                
+                mp2.put(T.charAt(i),0);
+            }
+        }
+        return res.toString();
+    }
+}
+
+8.Number of substrings containing all the three characters: (leetcode)
+Refer book notes for reference
+CODE:-
+class Solution {
+    public int numberOfSubstrings(String s) {
+        int i=0,j,ct=0,n=s.length();
+        HashMap<Character,Integer> mp = new HashMap();
+        mp.put('a',0);
+        mp.put('b',0);
+        mp.put('c',0);
+        for(j=0;j<n;j++){
+            mp.put(s.charAt(j),mp.get(s.charAt(j))+1);
+            //for substring "abc"
+	    while(mp.get('a')>0 && mp.get('b')>0 && mp.get('c')>0){
+                mp.put(s.charAt(i),mp.get(s.charAt(i))-1);
+                i++;
+            }
+	    //adding the inside substring after counting each letter
+	    //ex: abca --> abc + bca + abca after addition of the letter 'a'
+	    //so count would be 3			
+            ct+=i;
+        }
+        return ct;
+    }
+}
+
+9.Group anagrams: (leetcode)
+CODE:-
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>> mp = new HashMap();
+        List<List<String>> res = new ArrayList<List<String>>();
+        for(String s: strs){
+            char a[] = s.toCharArray();
+            Arrays.sort(a);
+            String temp = new String(a);
+            if(!mp.containsKey(temp))
+            mp.put(temp,new ArrayList<>());    
+            mp.get(temp).add(s);
+        }
+        res.addAll(mp.values());
+        return res;
+    }
+}
+
+10.Number of substring with only 1's: (leetcode)
+CODE:-
+	class Solution {
+    public int numSub(String s) {
+        int ct=0,res=0,m=(int)1e9+7;
+        for(char c: s.toCharArray()){
+            if(c == '1')
+                ct++;
+            else 
+                ct=0;
+            res = (res + ct)%m;
+        }
+        return res;
+    }
+}
+
+11.Replace the substring for a balanced string: (leetcode)
+Refer the book notes and discussion forum
+We don't care for the elements inside the window, we care for the elements
+outside the window (count)
+CODE:-
+class Solution {
+    public int balancedString(String s) {
+        int i=0,j=0,n=s.length(),l=n/4,res=Integer.MAX_VALUE;
+        HashMap<Character,Integer> mp = new HashMap();
+        mp.put('Q',0);
+        mp.put('W',0);
+        mp.put('E',0);
+        mp.put('R',0);
+        for(char c: s.toCharArray())
+            mp.put(c,mp.get(c)+1);
+        for(j=0;j<n;j++){
+            mp.put(s.charAt(j),mp.get(s.charAt(j))-1);
+            while(i<n && mp.get('Q')<=l && mp.get('W')<=l && mp.get('E')<=l && mp.get('R')<=l){
+                //j-i+1 is used for length
+		res = Math.min(res,j-i+1);
+                mp.put(s.charAt(i),mp.get(s.charAt(i))+1);
+                i++;
+            }
+        }
+        return res;
+    }
+}
+
+12.Valid parenthesis string : (leetcode)
+Using two stacks
+CODE:-
+class Solution {
+    public boolean checkValidString(String s) {
+       Stack<Integer> st = new Stack();
+       Stack<Integer> st2 = new Stack();
+       int i,n=s.length();
+       char c;
+       for(i=0;i<n;i++){
+           c = s.charAt(i);
+           if(c == '(')
+           st.push(i);
+           else if(c == '*')
+           st2.push(i);
+           else{
+               if(!st.isEmpty())
+               st.pop();
+               else if(!st2.isEmpty())
+               st2.pop(); 
+               else 
+               return false;
+            }
+        }
+        while(!st.isEmpty() && !st2.isEmpty()){
+            if(st.pop() > st2.pop())
+                return false;
+        }
+        return st.isEmpty();
+    }
+}
+
+13.Number of ways to split a string: (leetcode)
+CODE:-
+class Solution {
+    public int numWays(String s) {
+        long nOnes=0,n=s.length(),m=(int)1e9+7;
+        for(char c: s.toCharArray()){
+            if(c == '1') nOnes++;
+        }    
+        if(nOnes%3 != 0) return 0;
+        if(nOnes == 0) return (int) ((((n-1)*(n-2))/2)%m);
+        long w1=0,w2=0,oneThird=nOnes/3;
+        nOnes=0;
+        for(char c: s.toCharArray()){
+            if(c == '1') nOnes++;
+            if(nOnes == oneThird) w1++;
+            if(nOnes == 2*oneThird) w2++;
+        }      
+	return (int)((w1*w2)%m);
+    }
+}
