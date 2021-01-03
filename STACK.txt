@@ -90,4 +90,235 @@ public static String helperFunction(String s){
 	}
 	return st.empty()?"YES":"NO";
 }
+
+3.ArrayDeque Class:
+CODE:-
+    //Should be used instead of the stack class as it is much faster
+    //Deque<Integer> stack = new ArrayDeque(); is the same as below
+    //Rest everything remains the same as the stack class
+    ArrayDeque<Integer> stack = new ArrayDeque();
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    System.out.println(stack.poll());
+    System.out.println(stack.toString());
  
+4.Increasing stack and decreasing stack:
+Increasing stack:
+First smaller element towards left
+First smaller element towards right
+
+Decreasing stack:
+First larger element towards left
+First larger element towards right
+
+CODE:-
+ArrayDeque<Integer>iStack = new ArrayDeque();
+    ArrayDeque<Integer>dStack = new ArrayDeque();
+    int a[] = {8,6,4,5,7},i;
+	//increasing stack --> iStack
+	int firstSmallerElementTowardsLeft[] = new int[a.length];	
+	int firstSmallerElementTowardsRight[] = new int[a.length];	
+	Arrays.fill(firstSmallerElementTowardsLeft,-1);
+	Arrays.fill(firstSmallerElementTowardsRight,-1);
+	//decreasing stack -->dStack
+	int firstLargerElementTowardsLeft[] = new int[a.length];	
+	int firstLargerElementTowardsRight[] = new int[a.length];	
+	Arrays.fill(firstLargerElementTowardsLeft,-1);
+	Arrays.fill(firstLargerElementTowardsRight,-1);
+	
+	for(i=0;i<a.length;i++){
+		while(!iStack.isEmpty() && a[iStack.peek()] >= a[i])
+			firstSmallerElementTowardsRight[iStack.pop()] = a[i];	
+		  
+		if(!iStack.isEmpty())
+			firstSmallerElementTowardsLeft[i] = a[iStack.peek()];
+		
+		iStack.push(i);
+	}
+	
+	for(i=0;i<a.length;i++){
+		while(!dStack.isEmpty() && a[dStack.peek()] <= a[i])
+			firstLargerElementTowardsRight[dStack.pop()] = a[i];	
+		  
+		if(!dStack.isEmpty())
+			firstLargerElementTowardsLeft[i] = a[dStack.peek()];
+		
+		dStack.push(i);
+	}
+	
+	System.out.println(Arrays.toString(firstSmallerElementTowardsLeft));
+	System.out.println(Arrays.toString(firstSmallerElementTowardsRight));
+	System.out.println(Arrays.toString(firstLargerElementTowardsLeft));
+	System.out.println(Arrays.toString(firstLargerElementTowardsRight));
+
+5.Daily Temperatures: (leetcode)
+CODE:-
+Here, we have used monotonic decreasing stack. Refer the book for explanation
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        ArrayDeque<Integer> stack = new ArrayDeque();
+        int res[] = new int[T.length],i,ptr=0;
+        for(i=0;i<T.length;i++){
+            while(!stack.isEmpty() && T[stack.peek()] < T[i]){
+                int index = stack.pop();
+                res[index] = i-index;
+            }
+            stack.push(i);
+        }
+        return res;
+    }
+}
+
+6.Next greater element: (leetcode)
+Here, we have used % for traversing the array twice (circular array).
+Rest everything remains the same.
+CODE:-
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        ArrayDeque<Integer> st = new ArrayDeque();
+        int res[] = new int[nums.length],i,j,n=nums.length;
+        Arrays.fill(res,-1);
+        for(i=0;i<nums.length*2;i++){
+            while(!st.isEmpty() && nums[st.peek()] < nums[i%n]){
+                res[st.pop()] = nums[i%n];
+            }
+            st.push(i%n);
+        }
+        return res;
+    }
+}
+
+7.Asteroid Collision: (leetcode)
+It is based on monotonic stack changed little bit based on the problem 
+description.
+CODE:-
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        ArrayDeque<Integer> st = new ArrayDeque();
+        int i,j,n=asteroids.length;
+        for(i=0;i<n;i++){
+            while(!st.isEmpty() && st.peek()>0 && asteroids[i]<0 && st.peek()<Math.abs(asteroids[i])){
+                st.pop();
+                }
+            
+            if(!st.isEmpty() && (st.peek()>0 && asteroids[i]>0 || st.peek()<0 && asteroids[i]<0 || st.peek()<0 && asteroids[i]>0))
+            st.push(asteroids[i]);
+            
+            else if(!st.isEmpty() && st.peek() + asteroids[i] == 0)
+                st.pop();
+             
+            else if(st.isEmpty())
+                st.push(asteroids[i]);
+        }
+        int m=st.size(),res[] = new int[m];
+        for(j=0;j<m;j++){
+            res[j] = st.removeLast(); //st.pollLast(); will be same
+        }
+        return res;
+    }
+}
+
+8.132 Pattern: (leetcode)
+Monotonic decreasing stack application
+CODE:-
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        ArrayDeque<Integer> st = new ArrayDeque();
+        int i,n=nums.length,max=Integer.MIN_VALUE;
+        for(i=n-1;i>=0;i--){
+            while(!st.isEmpty() && st.peek() < nums[i])
+                max = st.pop();
+            if(nums[i]>max)
+                st.push(nums[i]);
+            else if(nums[i]<max)
+                return true;
+        }
+        return false;
+    }
+}
+
+9.Largest rectangle in histogram: (leetcode)
+
+Ex: [2,1,5,6,2,3]
+    [0,1,2,3,4,5]	
+width = Rightindex - Leftindex + 1
+width = 1 - 0 + 1
+width = 2, thus we have calculated width with the help of indices of the array
+
+Refer discussions for calculating width and book also,
+width = rightboundary - leftboundary + 1
+width = i-1 - (st.peek() + 1) + 1
+width = i-1 - st.peek() -1 + 1
+width = i-1 - st.peek()
+If stack is empty,
+width = rightboundary - leftboundary + 1
+width = i-1 - 0 + 1
+width = i 
+
+CODE:-
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        if(heights.length == 0 || heights == null)
+            return 0;
+        ArrayDeque<Integer> st = new ArrayDeque();
+        int i,n=heights.length,res=-1,height,width;
+        for(i=0;i<=n;i++){
+            while(!st.isEmpty() && (i == n || heights[st.peek()] > heights[i])){
+                //will give us the height 
+		height = heights[st.pop()];
+		//will give us the width
+                if(!st.isEmpty()) 
+                    width = i-st.peek()-1;
+                else 
+                    width = i;
+                res = Math.max(res,height*width);
+                System.out.println(height+" "+ width);
+            }
+            st.push(i);
+        }
+        return res;
+    }
+}
+
+10.Sum of subarray minimums: (leetcode)
+Here, we have used monotonic increasing stack for finding the smaller element
+towards left and right and refer the discussions and the book for the theory. 
+CODE:-
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        ArrayDeque<Integer> st = new ArrayDeque();
+        long left[] = new long[arr.length];
+        long right[] = new long[arr.length];
+        int i,n=arr.length;
+        long res=0,m=1000000007;
+        for(i=0;i<n;i++){
+            left[i] = i+1;
+            right[i] = n-i;
+        }
+        
+        for(i=0;i<n;i++){
+            while(!st.isEmpty() && arr[st.peek()] > arr[i]){
+                st.pop();
+            }
+            if(!st.isEmpty()) left[i] = i - st.peek(); 
+            st.push(i);
+        }
+        
+        st.clear();
+        
+        for(i=0;i<n;i++){
+            while(!st.isEmpty() && arr[st.peek()] > arr[i]){
+                right[st.peek()] = i - st.peek();
+                st.pop();
+            }
+            st.push(i);
+        }
+        
+        for(i=0;i<n;i++){
+            res = (res + arr[i] * left[i] * right[i])%m;
+        }
+        
+        return (int)res;
+    }
+}

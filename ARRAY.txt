@@ -186,4 +186,23 @@ class Solution {
     }
 }   
 
-9.	
+9.Task Scheduler:(leetcode)
+CODE:-	
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int map[] = new int[26],i;
+        //creating a map for most frequent characters
+	for(char c: tasks)
+            map[c-'A']++;
+        Arrays.sort(map);
+	//most frequent character
+        int max = map[25]-1;
+        int max_slots = max*n;
+        for(i=24;i>=0;i--){
+            max_slots-=Math.min(map[i],max);
+        }
+        return max_slots>0 ? max_slots+tasks.length : tasks.length;
+    }
+}
+
+10.
