@@ -1,0 +1,247 @@
+#GREEDY
+Greedy algorithms involves selecting the most profitable piece at a given moment.
+It also involves sorting.
+
+1.COIN CHANGING (CASHIERS ALGORITHM): 
+Here, at each iteration add coin of the largest value that
+does not take us past the amount to be paid.
+However, this greedy algo is not optimal. We use DP instead for
+the optimal solution.
+
+SORT n coin denominations so that 0 < c1 < c2 < ... < cn.
+S ← ∅.
+WHILE (x > 0)
+ 
+ k ← largest coin denomination ck such that ck ≤ x.
+ 
+ IF (no such k)
+ RETURN “no solution.”
+ ELSE
+ x ← x – ck.
+ S ← S ∪ { k }
+
+RETURN S
+
+2.Interval Scheduling:
+Here, we sort the jobs by the earliest finish time(also move the start time --> corresponding
+to the finish time)
+Consider the following intervals (start time - finish time),
+12-25, 20-30, 10-20
+Sorting the intervals by the finish time(ascending order),
+10-20, 12-25, 20-30
+If the ending time is the same we pick up the meeting with the minumum
+starting time
+The starting time of the next meeting should be greater than (or equal) the ending time
+of the last meeting
+ALGORITHM:
+SORT jobs by finish times and renumber so that f1 ≤ f2 ≤ … ≤ fn.
+S ← ∅.
+FOR j = 1 TO n
+ IF (job j is compatible with S)
+ S ← S ∪ { j }.
+RETURN S
+
+CODE:
+
+    int start[] = {75250, 50074, 43659, 8931, 11273, 27545, 50879, 77924};
+    int end[] = {112960, 114515, 81825, 93424, 54316, 35533, 73383, 160252};
+    int i,j=0,k=0,n=start.length,p=0,ct=1,val=Integer.MAX_VALUE;
+    
+    //Here, we created an array of pairs(user-defined type)
+    Pair arr[]  = new Pair[n];
+    for(i=0;i<n;i++){
+	arr[i] = new Pair(start[i],end[i],i+1);
+    }
+	
+    Compare obj = new Compare();
+    obj.compare(arr,n);
+
+      for(i=1;i<n;i++){
+            if(i<n-1 && arr[i].y == arr[i+1].y ){
+				
+				j = i;
+				
+				while(j<n-1 && arr[j].y == arr[j+1].y){
+					
+					out.println(arr[j].x + " " + arr[j+1].x);	
+					if(arr[j].x>=arr[k].y && arr[j+1].x>=arr[k].y){
+					
+					if(arr[j].x <=arr[j+1].x){
+					if(arr[j].x <=val){
+					p = j;
+					val = arr[j].x;
+					}
+					}
+					
+					else{
+					if(arr[j+1].x<=val){
+					p = j +1;
+					val = arr[j+1].x;
+					}
+				   }
+					
+					}
+					
+					else if(arr[j].x>=arr[k].y){
+						if(arr[j].x <=val){
+						p = j;
+						val = arr[j].x;
+					  }
+					}
+					
+					else if(arr[j+1].x>=arr[k].y){
+						if(arr[j+1].x <=val){
+						p = j+1;
+						val = arr[j+1].x;
+					  }
+					}
+					j++;
+					out.println(p);
+					}
+				
+				if(p>0){
+					ct++;
+					//out.println(ct);
+					k = p;
+					i=j;
+					val = Integer.MAX_VALUE;
+				}
+				p=0;	
+			}
+            else if(arr[i].x>=arr[k].y){
+                ct++;
+                k = i;
+            }
+            //out.println(ct);
+       }
+    //out.println(val);   
+    out.println(ct);
+
+//Here we created a class pair 
+class Pair{
+    int x,y,c;
+    public Pair(int x, int y, int c){
+        this.x = x;
+        this.y = y;
+        this.c = c;
+    }
+}
+
+//Here we use anonymous classes (refer oracle docs), here we declare and instantiate the class
+Comparator(interface) at the same time, instead of implementing this method
+with a new class, here we pass the whole expression of comparator class (overriding
+the compare method of the interface)
+to the Arrays.sort function	
+//If the returned value is positive we sort or exchange else if negative or
+zero it remains the same
+class Compare{
+    static void compare(Pair arr[], int n) 
+    { 
+        // Comparator to sort the pair according to second element 
+        Arrays.sort(arr, new Comparator<Pair>() { 
+            @Override public int compare(Pair p1, Pair p2) 
+            { 
+                //increasing order(positive value)
+                return p1.y - p2.y; 
+            } 
+        }); 
+    }
+}	
+
+3.Interval Partioning:
+Here we sort the jobs by their earliest start time and allocates them to the 
+class available(earliest start time first)
+Here we have the number of classrooms available, if it is not fitting 
+in any of the present classrooms we make a new one and fit into it
+and make a track on the number of classrooms (intial + newly created)
+ALGO:
+SORT lectures by start times and renumber so that s1 ≤ s2 ≤ … ≤ sn.
+d ← 0.
+FOR j = 1 TO n
+ IF (lecture j is compatible with some classroom)
+ Schedule lecture j in any such classroom k.
+ ELSE
+ Allocate a new classroom d + 1.
+ Schedule lecture j in classroom d + 1.
+ d ← d + 1.
+RETURN schedule.
+
+4.Job Scheduling (sequencing):
+Sometimes in job problems, to minimize loss the ratio of loss/time should be minimized, ie
+sort in increasing order by the ratio of l/t
+
+In some problems, for example the below one we have pure greedy approach, in
+job deadline problem, we have to maximise the profits so sort in decreasing order(the profits) using 
+comparotor interface, and try to complete it before deadline by iterating through the entire jobs.
+We maintain an slots array of boolean type and length n (jobs), were we mark all the jobs do be done
+before deadline in decreasing order of the profits, if found some slots we mark
+and then break in decreasing manner, if we dont find any empty slots we continue
+with the next value (iteration).
+
+CODE:
+int dead[] = {2,1,2,1,3};
+int profit[] = {100,19,27,25,15};
+    
+	int i,j,n = dead.length;
+	//res contain total number of jobs and max profit gained
+	int res[] = new int[2];
+	//for marking the jobs before deadline in order of max profit
+	boolean slots[] = new boolean[n];
+	Job arr[]  = new Job[n];
+	for(i=0;i<n;i++){
+		arr[i] = new Job(i+1,dead[i],profit[i]);
+	}
+	
+	Compare obj = new Compare();
+	obj.compare(arr,n);
+	
+	//intially all slots are empty     	
+	for(i=0;i<n;i++)
+	slots[i] = false;
+	
+	for(i=0;i<n;i++){
+		//the deadline cannot exceed the length of the slots array so it is max upto n (-1)
+		//-1 for before the deadline
+		//we iterate backwards (efficient as well) because we want to finish the job 
+		as late as possible (sort of just a day before type (end moment))-->greedy
+		//if we iterate normally from 0 to n then alloting the slots earlier will not have
+		any advantage as well as it will prevent any job having more profit to occupy the slots (if the deadline is earlier),
+		therefore we will finish the jobs just before the deadline towards -->0
+		for(j=Math.min(n,arr[i].dead)-1;j>=0;j--){
+			//check if empty
+			if(slots[j] == false){
+				res[0]++;
+				res[1]+=arr[i].profit;
+				//mark the job
+				slots[j] = true;
+				break;
+			}
+		}
+	} 	
+	out.println(Arrays.toString(res));
+
+//Job - user defined class
+class Job{
+    int id,dead,profit;
+    public Job(int id, int dead, int profit){
+        this.id = id;
+        this.dead = dead;
+        this.profit = profit;
+    }
+}
+
+//Class for using the comparator interface for sorting the jobs
+in decreasing order of profit
+class Compare{
+    static void compare(Job arr[], int n) 
+    { 
+        Arrays.sort(arr, new Comparator<Job>() { 
+            @Override public int compare(Job j1, Job j2) 
+            { 
+		//decreasing order
+                return j2.profit - j1.profit; 
+            } 
+        }); 
+    }
+}
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________

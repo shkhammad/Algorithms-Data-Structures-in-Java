@@ -18,3 +18,10 @@ public class Test {
  
  }
 }
+
+2. int to String:(Trick)
+CODE:-
+  int a = 10;
+  String b = "" + a; //Integer.toString(a)
+  System.out.println(b);
+  //outputs b as 10 in the form of string	

@@ -1,3 +1,4 @@
+
 A sliding window problem consists in general of two pointers i and j which 
 both traverses the array. One in linear speed like j/i, and the other i/j,
 after some condition satisfies traverses linearly. Below problem indicates 

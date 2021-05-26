@@ -205,4 +205,5 @@ class Solution {
     }
 }
 
-10.
+10. 
+CODE:-

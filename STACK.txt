@@ -239,7 +239,7 @@ class Solution {
 }
 
 9.Largest rectangle in histogram: (leetcode)
-
+We have implemented here increasing stack
 Ex: [2,1,5,6,2,3]
     [0,1,2,3,4,5]	
 width = Rightindex - Leftindex + 1
@@ -322,3 +322,26 @@ class Solution {
         return (int)res;
     }
 }
+
+11.Game of two stacks: (Hackerrank)
+Here, we maintain a running sum and the increase or decrease the sum if it goes beyond the bounds.
+CODE:-
+static int twoStacks(int x, int[] a, int[] b) {
+         int i=0,j=0,n=a.length,m=b.length,sum=0,ct=0;
+         while(i<n && sum+a[i] <=x){
+             sum+=a[i];
+             i++;
+         }
+         ct = i;
+         while(j<m){
+             sum+=b[j];
+             j++;
+             while(sum>x && i>0){
+                 i--;
+                 sum-=a[i];
+             }
+             if(sum<=x && i+j>ct)
+             ct = i+j;
+         }
+         return ct;
+  }

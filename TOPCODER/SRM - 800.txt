@@ -1,0 +1,74 @@
+Problem 1 (TIE FIGHTER ASSEMBLY):
+
+CODE:
+import java.util.*;
+public class TIEFighterAssembly{
+    public int assemble(String salvagedParts){
+    	int i,res = 0;
+	HashMap<Character,Integer> mp = new HashMap();
+	for(char c: salvagedParts.toCharArray()){
+		mp.put(c,mp.getOrDefault(c,0)+1);
+	}
+	if(mp.get('|') != null && mp.get('-') != null && mp.get('O') != null){
+	if(mp.get('|') >= 2 && mp.get('-') >= 2 && mp.get('O') >= 1){
+		while(true){
+			
+			if(mp.get('|') > 1){
+				mp.put('|',mp.get('|') - 2);
+			}
+			else 
+			break;
+			
+			if(mp.get('-') > 1){
+				mp.put('-',mp.get('-') - 2);
+			}
+			else 
+			break;
+			
+			if(mp.get('O') > 0){
+				mp.put('O',mp.get('O') - 1);
+			}
+			else 
+			break;
+			
+			res++;
+		}
+	   }
+	}	
+	return (res);		
+  }
+}
+
+Problem 2 (SLOT MACHINE):
+
+CODE:
+Here, we need to find the position of the the character in the reel after
+each step i.e the reel get rotated by steps. We need to find the jackpot i.e
+'cc...' in the entire machine. The position (character) of each slot (reel) is in the p[pos].
+Then we add the steps[pos] to the p[pos] array, if the result is greater than
+n (length), we divide it by the individual reel[pos] length and store the final
+result in p[pos].  
+
+public class SlotMachineHacking{
+    public int win(String reels[] , int steps[]){
+    int j,v=0,t=0,n=reels.length,ct=0;
+    int p[] = new int[n];
+    do{
+		t=0;
+		v=0;
+		for(j=0;j<n;j++){
+        	        p[j] = (p[j] + steps[j]) % reels[j].length();
+			if(reels[j].charAt(p[j]) == 'c')
+			t++;
+			if(p[j] == 0)
+			v++;
+        	}
+      
+		if(t == n)
+		return ct;
+		
+        ct++;
+	}while(v!=n);
+	return -1;
+   }
+}

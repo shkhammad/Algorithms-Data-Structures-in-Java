@@ -340,3 +340,41 @@ class Solution {
 	return (int)((w1*w2)%m);
     }
 }
+
+14. Do not be distracted: (CF - 719 - DIV3) 
+CODE:-
+import java.util.*;
+public class Test{
+
+final static FastReader in = new FastReader();
+final static PrintWriter out = new PrintWriter(System.out);
+
+//"FastReader" input class
+
+
+public static String helperFunction(){
+		int n = in.nextInt();
+		String s = in.next();
+		int i;
+		ArrayList<Character> ls = new ArrayList<>();
+		for(i=0;i<n;i++){
+			if(!ls.contains(s.charAt(i)))
+			ls.add(s.charAt(i));
+			else{
+				if((int)ls.get(ls.size()-1) != (int)s.charAt(i)){
+				return "NO";
+				}
+			}
+		}
+		return "YES";
+ }
+ 
+public static void main(String [] args) throws IOException{
+	int tt = in.nextInt();
+	while(tt-->0){
+		out.println(helperFunction());
+	}
+    out.close();
+  }
+}  
+

@@ -1,0 +1,58 @@
+1. Painting Cells:
+
+CODE (long solution):
+public class PaintingCells{
+    public int paint(int rows, int columns){
+    	int i,j,res =0,c = 1;
+        for(i=1;i<=rows;i++){
+            for(j=1;j<=columns;j++){
+                if(c == 1){
+                    res++;
+                }
+                c = -c; 
+            }	
+            if((j-1)%2 == 0)
+            c = -c;	
+
+        }
+	return (res);
+  }
+}
+
+CODE (short solution):
+public class PaintingCells{
+    public int paint(int rows, int columns){
+    	if((rows * columns) % 2 == 0)
+            return (rows * columns) / 2;
+        return (rows * columns) / 2 + 1;
+  }
+}
+
+2. Marble Picking:
+
+CODE:
+import java.util.*;
+public class MarblePicking{
+    public int fewestColors(String marbles[], int count){
+	if(count == 0) return 0;    
+        HashMap<Character,Integer> mp = new HashMap<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        String fi = "";
+        int i,j,n=marbles.length,res=0,s=0;
+        for(i=0;i<n;i++)
+            fi += marbles[i];
+        for(char c: fi.toCharArray())
+            mp.put(c,mp.getOrDefault(c,0)+1);
+	for(int val: mp.values())
+            pq.offer(val);
+        int m = pq.size();
+        while(m-->0){
+            s+=pq.poll();
+            res++;
+            if(s>=count){
+                break;
+            }
+        }
+       	return res;
+    }
+}

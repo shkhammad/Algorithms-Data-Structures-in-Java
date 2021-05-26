@@ -1,0 +1,50 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Test {
+ 
+ final static PrintWriter out = new PrintWriter(System.out);
+  public static void main(String [] args) throws IOException{
+    /*int n = in.nextInt(),a,b;
+	in.nextLine();
+	while(n-->0){
+	 a = in.nextInt();
+	 b = in.nextInt();
+	 out.println(a+b);
+	 if(n>0)
+	 in.nextLine();
+	}	
+	in.close();
+	out.close();
+    */
+    Scanner in = new Scanner(System.in);
+    int i,n,ct=0;
+    long A,B,C,t1,pt,tt,t=0,penalty=0,m=(int)1e9+7;
+    n = in.nextInt();
+    long tr[] = new long[n];
+    tt = in.nextLong();
+    in.nextLine();
+    A = in.nextInt();
+    B = in.nextInt();
+    C = in.nextInt();
+    t1 = in.nextInt();
+    tr[0] = t1;
+    for(i=1;i<n;i++)
+	tr[i] = (((A*tr[i-1]) + B)%C)+1;
+	
+	Arrays.sort(tr);
+	for(i=0;i<n;i++){
+		if(t+tr[i]<=tt){
+		ct++;
+		//total penalty is previous penalties + previous time (sum time) spend on probelms + current problem time
+		penalty = (penalty + t + tr[i]) % m;
+		t+= tr[i];
+		}
+		else break;
+	}
+	
+	out.println(ct +" "+(penalty));
+    	out.close();
+ }
+}
