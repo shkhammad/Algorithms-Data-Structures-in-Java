@@ -1,0 +1,200 @@
+1. Table Tennis Game: (SRM - 791 LEVEL - 1)
+Here, A and B both should not be odd, rest please see the CP-2 book for more details.
+
+CODE:
+public class TableTennisGame{
+    public int[] finalScore(int A, int B){
+    	if((A%2==0 || B%2 ==0) && Math.abs(A-B) <=2 && A+B>=11 && A+B<21)
+        return new int[] {11, (A+B) - 11};
+        
+        
+        if(A==B && A+B>20)
+        return new int[] {A+1,B-1};
+           
+        //return new int[] {};        
+        return new int[0];
+    }
+}
+
+2. Ordinary Numbers: (CF - 719 - DIV3 - 800PT)
+To convert 1 --> 11 --> 111 --> 1111 and so on we need to multiply it by 10 and add 1 to it.
+1 --> 1*10 + 1 = 11 --> 11*10 + 1 = 111 --> 111*10 + 1 = 1111
+
+CODE:
+public static void main(String [] args) throws IOException{ 
+	int tt = in.nextInt(),n,j,ct=0;
+	long i;
+	while(tt-->0){
+		n = in.nextInt();
+		for(i=1;i<=n;i = (i*10) +1){
+			for(j=1;j<=9;j++){
+				if(i*j <= n)
+				ct++;
+				else break;
+			}
+		}
+		
+		out.println(ct);
+		ct=0;
+	}
+    out.close();
+}
+
+3. Nastia and nearly good numbers: (CF - 720 - DIV2 - 1000PT)
+Here, a and a*(b+1) is divisible by a and a*b is divisible by a*b
+a, a*(b+1) --> nearly good --> 2
+a*b --> good --> 1
+Also, if b is 1 then, there will be three numbers divisible by a and so no 'good' number since we need "exactly" one good number, we will get three
+good and three nearly good numbers which is not required so we'll print NO
+
+CODE:
+public static void helperFunction(){
+	   int a = in.nextInt(),b = in.nextInt();
+	   if(b == 1)
+	   out.println("NO");
+	   else{
+		out.println("YES");
+		out.println(a + " " + (long)a*b + " " + (long)a*(b+1));
+	   }
+}
+
+public static void main(String [] args) throws IOException{ 
+	
+	int tt = in.nextInt();
+	while(tt-->0){
+		helperFunction();
+	}
+}
+
+4. Josephus Problem: (Part 1,2 - CSES PROBLEM SET)
+
+Part 1A: (TLE)
+
+CODE:
+public static void main(String [] args) throws IOException{ 
+	   int n = in.nextInt(),i,j=1;
+	   if(n == 1) out.println("1");	
+	   else{
+	   ArrayList<Integer> ls = new ArrayList<>();
+	   
+	   for(i=1;i<=n;i++)
+	   ls.add(i);	
+	   
+	   while(ls.size()>0){
+		   
+			out.print(ls.get(j)+" ");
+			ls.remove(j);
+		
+			if(ls.size()>0)
+			j = (j+1)%ls.size();
+	     }
+	   }
+	   out.close();	
+ }	
+
+
+Part 1B: (ACCEPTED)
+Here, we remove alternate values and append it to the end of the deque and remove alternate values and print it to the console. 
+
+CODE:
+public static void main(String [] args) throws IOException{ 
+   	   int n = in.nextInt(),i;
+	   ArrayDeque<Integer> dq = new ArrayDeque<>();
+	   
+	   for(i=1;i<=n;i++)
+	   dq.addLast(i);	
+	   
+	   while(dq.size()>0){
+		   dq.addLast(dq.removeFirst());
+		   out.print(dq.removeFirst()+" ");
+	   }
+	
+	   out.close();	
+}
+
+Part 2: (TLE)
+
+CODE:
+public static void main(String [] args) throws IOException{ 
+    	   int n = in.nextInt(),k=in.nextInt(),i,j=k%n;
+	   if(n == 1) out.println("1");	
+	   else{
+	   
+	   //ArrayList<Integer> ls = new ArrayList<>();
+	   LinkedList<Integer> ls = new LinkedList<>();
+	   
+	   for(i=1;i<=n;i++)
+	   ls.add(i);	
+	   
+	   while(ls.size()>0){
+		   
+			out.print(ls.get(j)+" ");
+			ls.remove(j);
+		
+			if(ls.size()>0)
+			j = (j+k)%ls.size();
+	     }
+	   }
+	   out.close();
+ }
+
+Part 3: (CP-MAXX ALGO)
+
+We are given the natural numbers n and k. All natural numbers from 1 to n are written in a circle. First, count the k-th number starting from the 
+first one and delete it. Then k numbers are counted starting from the next one and the k-th one is removed again, and so on. The process stops when 
+one number remains. It is required to find the last number.
+
+For dry run, refer the CP-2 book.
+This algorithm works fine after the first iteration (start -->end -->start), res stores position we need value so add 1 to it.
+
+CODE: (Non-recursive form)
+int josephus(int n, int k) {
+    int res = 0;
+    for (int i = 1; i <= n; ++i)
+      res = (res + k) % i;
+    return res + 1;
+}
+
+5. Growling Gears: (Kattis - 2.1)
+This problem was based on parabolic curve, refer the CP-2 book for detail formulas and solving of the problem. 
+
+CODE:
+public static double findTorque(int a, int b, int c){
+    
+        double rpmx = (double)b /(2*(double)a);
+        return -a * rpmx * rpmx + b * rpmx + c;
+    
+}
+ 
+public static int helperFunction(){
+	int n = in.nextInt();
+       int i,res=-1;
+       double temp = Double.MIN_VALUE;
+       for(i=1;i<=n;i++){
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int c = in.nextInt();
+            
+            if(n == 1) return 1;
+       
+            double fake = findTorque(a,b,c);
+            if(fake>temp){
+            temp = fake;
+            res = i;    
+            }
+       }
+       return res;
+}
+
+
+
+public static void main(String [] args) throws IOException{ 
+	int tt = in.nextInt();
+    	while(tt-->0){
+             out.println(helperFunction());
+    	}
+        out.close();
+
+ }
+
+
