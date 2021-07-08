@@ -1,4 +1,4 @@
-1. Painting Cells:
+1. Painting Cells (250pt):
 
 CODE (long solution):
 public class PaintingCells{
@@ -28,7 +28,7 @@ public class PaintingCells{
   }
 }
 
-2. Marble Picking:
+2. Marble Picking (500pt):
 
 CODE:
 import java.util.*;

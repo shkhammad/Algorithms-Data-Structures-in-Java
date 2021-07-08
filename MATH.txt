@@ -1,3 +1,54 @@
+MATH CLASS IN JAVA:
+
+Example (includes all the built-in methods of the class):
+
+public class Test{
+   public static void main(String ... args){	
+	
+	//for most of the methods
+	//returns a double value --> arguments are also of double type
+	
+	
+	//returns the mod (absolute) value of the given value
+	System.out.println(Math.abs(-5.7));
+	
+	//returns the cube-root of the given value
+	System.out.println(Math.cbrt(8));
+	
+	//returns the ceil (next integer) of the given value
+	System.out.println(Math.ceil(7.0));
+	
+	//returns a value which is 'e' raise to the given value 
+	System.out.println(Math.exp(1));
+	
+	//returns the floor (previous integer) of the given value
+	System.out.println(Math.floor(2.9));
+	
+	//returns the natural log (base e) of the given value
+	System.out.println(Math.log(2));
+	
+	//returns the log (base 10) of the given value
+	System.out.println(Math.log10(2));
+	
+	//returns the max value between the two numbers
+	System.out.println(Math.max(2,3));
+	
+	//returns the min value between the two numbers
+	System.out.println(Math.min(2,3));
+	
+	//returns 'a' raise to 'b' where a is the base and b is the exponent
+        System.out.println(Math.pow(2,3));
+	
+	
+	//return a random double value between 0 to 1(excluding)
+	//the below line returns a random integer value between 0 to 10(excluding)
+	System.out.println((int)(Math.random() * 10));
+	
+	//returns the square-root of the given value
+	System.out.println(Math.sqrt(9));	
+   }
+}
+
 1. Table Tennis Game: (SRM - 791 LEVEL - 1)
 Here, A and B both should not be odd, rest please see the CP-2 book for more details.
 

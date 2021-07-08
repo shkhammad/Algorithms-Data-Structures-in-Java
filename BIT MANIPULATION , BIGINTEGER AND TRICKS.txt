@@ -1,7 +1,7 @@
 # BIT MANIPULATION
 n-->number
 
-1.EVEN/ODD:
+1. EVEN/ODD:
 In odd numbers the last bit is always 1,so when we & 1 to it,it becomes 1 so false(odd). 
 n&1==0    //4-->100-->0100 & 0001-->0000-->even
 return true(even)  //5-->0101 & 0001-->0001-->odd
@@ -22,7 +22,7 @@ public class Test{
   }
 }
 
-2.POWER OF 2:
+2. POWER OF 2:
 n&n-1==0
 Example:
 n=8
@@ -52,7 +52,8 @@ public class Test{
   System.out.println("FALSE");
   }
 }
-3.Multiplying/Dividing by 2:
+
+3. Multiplying/Dividing by 2:
 >>---divide (right shift)
 <<--multiply (left shift)
 CODE:-
@@ -67,7 +68,8 @@ System.out.println(n);
 System.out.println(a); 
  }	
 }
-4.Swapping two variables without temp variable:
+
+4. Swapping two variables without temp variable:
 a^=b
 b^=a
 a^=b
@@ -91,7 +93,8 @@ a^=b;
 System.out.println(a+" "+b); 
  }	
 }
-5.No of digits in a number: -
+
+5. No of digits in a number: 
 CODE:-
 import java.util.*;
 public class Test{
@@ -102,7 +105,7 @@ System.out.println(n);
  }	
 }
 
-6.Left shift and right shift:(Bit Manipulation)
+6. Left shift and right shift:(Bit Manipulation)
 CODE:-
   //left-shift
   // x<<y -- > x * 2^y
@@ -116,7 +119,7 @@ CODE:-
   
   System.out.println(5<<1);
 
-7.Hamming distance:
+7. Hamming distance:
 CODE:-
 class Solution {
     public int hammingDistance(int x, int y) {
@@ -131,7 +134,7 @@ class Solution {
     }
 }
 
-8.Binary number with alternating bits:
+8. Binary number with alternating bits:
 CODE:-
 class Solution {
     public boolean hasAlternatingBits(int n) {
@@ -145,7 +148,7 @@ class Solution {
     }
 }
 
-9.Bitwise and of numbers range:
+9. Bitwise and of numbers range:
 CODE:-
 class Solution {
     public int rangeBitwiseAnd(int m, int n) {
@@ -163,7 +166,7 @@ class Solution {
     }
 }
 
-10.Single number - II:
+10. Single number - II:
 CODE:-
 class Solution {
     public int[] singleNumber(int[] nums) {
@@ -197,7 +200,7 @@ class Solution {
     }
 }
 
-11.Count triplets that can form two arrays of equal xor:
+11. Count triplets that can form two arrays of equal xor:
 Ex:[2,3,1,6,7]
 Here, 2^3^1 = 0
 i.e (0,1,2) so length would be 2(2-0=2)
@@ -211,6 +214,8 @@ i.e (2,3,4) so length would be 2(4-2=2)
 (2,4,4) is the tripet formed according to the problem description
 1 = 6^7 is also true(here l.h.s = r.h.s as the xor of both the arrays are equal, in total zero)
 (2,3,4) is the triplet
+
+
 
 CODE:-
 class Solution {
@@ -232,8 +237,210 @@ class Solution {
     } 
 }
 
-#BIGINTEGER
-1.GCD of two numbers(using BigInteger class): -
+12. Rightmost (lowest) set bit of a number:
+
+0 1 1 0 --> value in binary for integer 6
+| | | | 
+3 2 1 0 --> index of each bit
+| | | |
+|    lowest bit
+highest bit
+
+highest <-<--<-<- lowest
+	
+Here we have 1st bit as the set bit and 2nd bit is also set bit while 0th bit and 3rd bit are not set
+
+Reference (for example 2):
+
+            value (2^index)  index
+0 0 0 1 -->   1     	       0     
+0 0 1 0 -->   2     	       1
+0 1 0 0 -->   4                2    
+1 0 0 0 -->   8                3 
+
+
+Example 1:
+	
+int b = 8;
+	
+//this returns the index (position) of the rightmost (lowest) set bit of the number
+int res = (int)(Math.log(b & -b) / Math.log(2));
+
+//this outputs 3	
+out.println(res);
+
+Example 2:
+
+//To get the value from the index (append zeroes to the right) we can use the below formula,
+
+// 0 --> 1 (2 ^ 0)
+// 1 --> 2 (2 ^ 1)
+// 2 --> 4 (2 ^ 2)
+// 3 --> 8 (2 ^ 3)
+	
+//It can be done in both ways shown below, 
+
+int b = 8;
+
+//directly using the value
+int val = b & ~(b-1);
+
+//OR
+
+//first calculating the index (from example 1) then left shift it
+//int val = 1<<res;
+
+out.println(val);
+	
+
+13. Finding Subsets (of an array) using the Bitmasking approach:
+
+Refer the CP-2 book for detailed explanation of the method
+
+Example 1 (without duplicates): 
+CODE:
+
+class Solution {
+    public List<List<Integer>> subsets(int[] a) {
+        List<Integer> ls = new ArrayList<>();
+        
+        List<List<Integer>> rls = new ArrayList();
+        
+        //List<List<Integer>> rls = new ArrayList<List<Integer>> ();
+        int i,j,n=a.length,sct=(int)Math.pow(2,n);
+
+        for(i=0;i<sct;i++){
+            for(j=0;j<n;j++){
+                
+		//below line can also be used using the built-in biginteger method (testBit) but is slower
+		//if (BigInteger.valueOf(i).testBit(j))
+		if((i & (1 << j)) > 0){
+                    //out.print((j+1) + " ");
+                    ls.add(a[j]);
+                }
+            }
+                Collections.sort(ls);
+                rls.add(new ArrayList<>(ls));
+                ls.clear();
+        }
+
+        return (rls);
+	
+    }
+}
+
+Example 2 (with duplicates): 
+CODE:
+
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] a) {
+        StringBuilder s = new StringBuilder("");
+        HashSet<String> st = new HashSet<>();
+        List<Integer> ls = new ArrayList<>();
+        List<List<Integer>> rls = new ArrayList<> ();
+        
+        int i,j,n=a.length,sct=(int)Math.pow(2,n),p=0;
+
+        for(i=0;i<sct;i++){
+            for(j=0;j<n;j++){
+                if((i & (1 << j)) > 0){
+                    ls.add(a[j]);
+                }
+             }
+            
+                Collections.sort(ls);
+                
+                while(p < ls.size()){
+                    s.append(ls.get(p++));
+                    s.append(" ");
+                }
+            
+                if(!st.contains(s.toString())){
+                    rls.add(new ArrayList<>(ls));
+                    st.add(s.toString());
+                }
+                
+                ls.clear();
+                s.setLength(0);
+                p = 0;
+         }
+        
+         Collections.sort(rls, new Comparator<List<Integer>>(){
+		@Override
+		public int compare(List<Integer> ls1, List<Integer> ls2){
+			int i,n=Math.min(ls1.size(), ls2.size());
+			for(i=0;i<n;i++){
+				if(ls1.get(i) > ls2.get(i)) return 1;
+				else if(ls1.get(i) < ls2.get(i)) return -1;
+			}
+			return 0;
+		}
+	});   
+        
+        return (rls);
+    }
+}
+
+Example 3 (subsequences of a string in lexicographically-sorted (dictionary based) order):
+CODE:
+
+class Solution
+{
+    public List<String> AllPossibleStrings(String s)
+    {
+        // Code here
+        StringBuilder res = new StringBuilder("");
+        ArrayList<String> ls = new ArrayList<>();
+        int i,j,n=s.length(),ns = (int)Math.pow(2,n);
+        
+        for(i=1;i<ns;i++){
+		    for(j=0;j<n;j++){
+			    if((i & (1 << j)) > 0)
+				//out.print((j+1) + " ");
+			    res.append(s.charAt(j));
+			        
+			}
+			ls.add(res.toString());
+			res.setLength(0);
+		}
+	    Collections.sort(ls);
+        return ls;
+    }
+}
+
+Example 4 (Preparing Olympiad - CF - 1400pt):
+CODE:
+
+public static int helperFunction(int n, int l, int r, int x, int a[]){
+	  
+		List<Integer> ls = new ArrayList<>();
+		int i,j,sct=(int)Math.pow(2,n),res=0;
+		long sum = 0;
+        	for(i=1;i<sct;i++){
+			for(j=0;j<n;j++){
+				if((i & (1 << j)) > 0){
+					ls.add(a[j]);
+					sum+=a[j];
+				} 
+			}
+                
+                	Collections.sort(ls);
+                
+                	if(ls.size()>= 2 && sum>=l && sum<=r && (ls.get(ls.size()-1) - ls.get(0)) >= x){
+                		//out.println(ls);
+                		res++;
+			}
+
+                	ls.clear();
+                	sum=0;
+         	}
+        
+		return res;
+}
+
+# BIGINTEGER CLASS IN JAVA
+
+1. GCD of two numbers (using BigInteger class): -
 CODE:-
 import java.math.*; //package for biginteger class
 public class Test{
@@ -244,22 +451,25 @@ public class Test{
   BigInteger c = a.gcd(b);//store the result in c
   int res = c.intValue();
   System.out.println(res);	
+ 
  }	
 }
 
-2.Checking for prime(using biginteger class):
+2. Checking for prime (using biginteger class):
 CODE:-
 import java.math.*;
 public class Test{
  public static void main(String []args){
+  
   //true-->prime else false-->composite
    
   BigInteger a = new BigInteger("5");
-  System.out.println(a.isProbablePrime(1));//paramter 1 for certainity	
+  System.out.println(a.isProbablePrime(1)); //parameter 1 for certainity	
+ 
  }	
 }
 
-3.Sorting very large numbers(using biginteger class --> Hackerrank):
+3. Sorting very large numbers (using biginteger class --> Hackerrank):
 Here, unsorted numbers are stored in 'unsorted' array of String type, we add them to the BigInteger array 'a', and then
 sort them.
 CODE:-
@@ -278,7 +488,130 @@ static void bigSorting(String[] unsorted) {
         }
  }
 
- 
-4.
+4. An Example listing all the built-in methods and fields for the class:
+CODE:-
+
+public class Test{
+   public static void main(String ... args){
+	     
+	//BigInteger object is created and initialized with a value of -5 using both the methods
+	//the below method returns a BigInteger whose value is equal to that of the specified long, here -5.
+	
+	//BigInteger a = BigInteger.valueOf(-5);
+	BigInteger a = new BigInteger("-5");
+	
+	//here ONE is a field which has a value 1 in the class, so now b has that same value (1)
+	BigInteger b = BigInteger.ONE;
+	
+	//this is not possible as bigintegers are immutable and cannot be changed once created
+	//a = -5;
+	
+	//returns a biginteger with absolute value of a (this)
+	System.out.println(a.abs());
+	
+	System.out.println(b);
+	
+	//returns a biginteger whose value is a+b
+	System.out.println(a.add(b));
+	
+	BigInteger c = new BigInteger("3");
+	
+	//returns the total number of set bits of the given value (in binary)
+	System.out.println(c.bitCount());
+	
+	//returns the bitwise 'and' of the two bigintegers
+	System.out.println(b.and(c));
+	
+	BigInteger d = new BigInteger("4");
+	
+	BigInteger e = new BigInteger("2");
+	
+	System.out.println(d.divide(e));
+	
+	//returns d/e and d%e in an biginteger array
+	BigInteger ar[] = d.divideAndRemainder(e);
+	System.out.println(Arrays.toString(ar));
+	
+	//returns true if e is a biginteger and it's numerical value is equal to d
+	System.out.println(d.equals(e));
+	
+	//here the position (index) specified flips that bit of d and returns it as biginteger
+	System.out.println(d.flipBit(2));
+	
+	
+	//we can get the index (0,1,..) bit which is set, using the below method, if the value is 0 returns -1
+	System.out.println(d.getLowestSetBit());
+		
+	//converts biginteger to int (returns an int)
+	System.out.println(d.intValue());
+	
+	//converts biginteger to long (returns a long)
+	System.out.println(d.longValue());
+	
+	//returns the max biginteger between both bigintegers
+	System.out.println(d.max(e));
+	
+	//returns the min biginteger between both bigintegers
+	System.out.println(d.min(e));
+	
+	//returns d mod value (given)
+	System.out.println(d.mod(new BigInteger("3")));
+	
+	//returns d*e
+	System.out.println(d.multiply(e));
+	
+	//returns d raise to given value
+	System.out.println(d.pow(2));
+	
+	//returns bitwise 'or' of the two bigintegers
+	System.out.println(d.or(e));
+	
+	//returns the next prime number for the given value
+	System.out.println(new BigInteger("3").nextProbablePrime());
+	
+	//returns the square-root of the given biginteger
+	System.out.println(d.sqrt());
+	
+	//returns the subraction of the two bigintegers
+	System.out.println(d.subtract(new BigInteger("1")));
+	
+	//returns the bitwise 'xor' of the two bigintegers
+	System.out.println(new BigInteger("1").xor(new BigInteger("2")));
+	
+	//returns a biginteger whose value is (-this), in this case -d
+	//it will output 3 --> -(-3)
+	System.out.println(new BigInteger("-3").negate());
+	
+	//returns d%e
+	System.out.println(d.remainder(e));
+	
+	//returns 2*(2^3) which is this<<n (given value)
+	System.out.println(new BigInteger("2").shiftLeft(3));
+
+	//returns 10/(2^1) which is this>>n	(given value)
+	System.out.println(new BigInteger("10").shiftRight(1));
+	
+	//computes this & (1<<n (given value)) != 0 returns true else false
+	System.out.println(new BigInteger("6").testBit(1));
+	
+	//returns the decimal string representation of the given biginteger
+	System.out.println(new BigInteger("2").toString() + "wth");
+	
+	//returns -1, 0 or 1 as this BigInteger is numerically less than, equal to, or greater than the other biginteger (given value)
+	System.out.println(new BigInteger("2").compareTo(new BigInteger("1")));
+	
+	//following steps need to be followed to calculate inverse modulo:
+	//3 (first value)*(1,2,3,... (second value-1))% 4(second value) == 1
+	//                |--------------------------|
+	//this value should be less than the second value (4) 
+	//9%4 == 1
+	//so the final answer is 3, which is less than the second value
+	//it throws arithmetic exception if multiplicative inverse (mod value) doesn't exist
+	//the condition is that both the values (bigintegers) should be relatively prime to each other
+	
+	System.out.println(new BigInteger("3").modInverse(new BigInteger("4")));	
+
+  }	
+}
 
 

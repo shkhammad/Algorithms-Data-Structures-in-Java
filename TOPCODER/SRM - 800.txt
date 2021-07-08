@@ -1,4 +1,4 @@
-Problem 1 (TIE FIGHTER ASSEMBLY):
+Problem 1 (TIE FIGHTER ASSEMBLY) - 250PT:
 
 CODE:
 import java.util.*;
@@ -39,7 +39,7 @@ public class TIEFighterAssembly{
   }
 }
 
-Problem 2 (SLOT MACHINE):
+Problem 2 (SLOT MACHINE) - 400PT:
 
 CODE:
 Here, we need to find the position of the the character in the reel after
@@ -71,4 +71,14 @@ public class SlotMachineHacking{
 	}while(v!=n);
 	return -1;
    }
+}
+
+Problem 3 (MIN MAX GAME) - 1000PT:
+
+CODE:
+import java.math.*;
+public class MinMaxGame{
+    public int lastNumber(int A[]){
+    	return A.length % 2 == 1 ? Math.max(A[0],A[A.length-1]) : Math.min(A[0],A[A.length-1]); 
+    }
 }

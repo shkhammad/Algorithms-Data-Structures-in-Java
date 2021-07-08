@@ -1,0 +1,8 @@
+SOLVED PROBLEMS:
+
+3 - Random (also includes basic string problems)
+5 - Contest
+9 - Greedy
+3 - Math
+
+Total --> 20
