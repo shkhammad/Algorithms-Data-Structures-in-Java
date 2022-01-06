@@ -1,6 +1,7 @@
-1.Even digit sum:
+1. Even digit sum:
 Using the Character.getNumericValue() function
-for converting char to int (char-->int)
+for converting char to int (char --> int)
+
 CODE:
 public class EvenDigitSum {
     public static int getEvenDigitSum(int number){
@@ -15,3 +16,36 @@ public class EvenDigitSum {
         return sum;
     }
 }
+
+2. Integer to Character (int --> char):
+
+CODE:
+
+    //integer to character using different methods
+    //int value should be between 0 to 9 (including) (decimal)
+    //as character can only hold a single bit
+    //it cannot hold negative values as well
+    //here 10 is the radix (base) for decimal system
+       
+    int a = 5;
+    char c = Character.forDigit(a,10);
+    
+    //OR 
+    
+    //char c = (char)(a+'0');
+    
+    //OR
+    
+    //char c = (char) (a+48);
+    
+    int val = 97;
+    
+    //here d stores 'a' (ascii value of 'a' is 97)	
+    char d = (char)val;
+    
+    out.println(c);	
+    
+    //will print 'a'
+    out.println(d);
+
+

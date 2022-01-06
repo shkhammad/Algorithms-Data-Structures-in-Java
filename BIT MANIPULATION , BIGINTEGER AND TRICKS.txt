@@ -438,6 +438,32 @@ public static int helperFunction(int n, int l, int r, int x, int a[]){
 		return res;
 }
 
+14. Generating random numbers in JAVA: 
+CODE:
+	//RANDOM CLASS JAVA (pseudo-random)
+	//They are generated using the linear - congruential generator
+	//The bounds are specified for the random values for different methods if not assume it to be any value between -range to +range
+	//It will generate all integer values (with equal probability) but not all long values (64 bits) since the seed is of only 48 bits 
+	
+	Random rd = new Random();
+	
+	//generates random boolean values (true or false)
+	System.out.println(rd.nextBoolean()); 
+	
+	//genrates random integer values
+	System.out.println(rd.nextInt()); 
+	
+	//generates random integer values between 0(including)to the bound(excluding) specified
+	System.out.println(rd.nextInt(10)); 
+	
+	//generates random long values
+	System.out.println(rd.nextLong()); 
+	
+	//generates random double values between 0.0(including) and 1.0(excluding)
+	System.out.println(rd.nextDouble()); 
+
+
+
 # BIGINTEGER CLASS IN JAVA
 
 1. GCD of two numbers (using BigInteger class): -

@@ -1,3 +1,37 @@
+CONVERSIONS (among different bases (2,8,10,16)):
+
+CODE:
+
+	//all of these methods returns a String
+	
+	int a = 15;
+	
+	//Decimal --> Binary
+	out.println(Integer.toBinaryString(a));	
+	
+	//Decimal --> Octal
+	out.println(Integer.toOctalString(a));	
+	
+	//Decimal --> Hexadecimal
+	out.println(Integer.toHexString(a));	
+	
+	
+	//Binary --> Decimal
+	
+	int val = 1111;
+	//OR
+	//String val = "1111"; (binary in String type)
+	
+	//Integer.parseInt(string, radix (base))
+	//here "" + val --> converts integer to a string, since argument is of that type
+	//here 2 represents base of the binary system
+	//it returns an integer (decimal)
+	
+	out.println(Integer.parseInt(""+val,2));
+	//OR
+	//out.println(Integer.parseInt(val,2));
+
+
 MATH CLASS IN JAVA:
 
 Example (includes all the built-in methods of the class):
